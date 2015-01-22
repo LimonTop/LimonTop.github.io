@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: reactivecocoa | Sunshell]]></title>
+  <title><![CDATA[Category: reactivecocoa | Limon's Blog]]></title>
   <link href="http://limon-.github.io//blog/categories/reactivecocoa/atom.xml" rel="self"/>
   <link href="http://limon-.github.io//"/>
-  <updated>2015-01-08T10:07:39+08:00</updated>
+  <updated>2015-01-22T18:51:37+08:00</updated>
   <id>http://limon-.github.io//</id>
   <author>
     <name><![CDATA[Limon]]></name>
@@ -179,6 +179,41 @@ self.user.username = @"sunnyxx"; // 3rd
         }];
 }
 </code></pre>
+
+<p><code>-switchToLatest</code>方法用于signal-of-signals，它总是输出最新的信号的值。</p>
+
+<pre><code>RACSubject *letters = [RACSubject subject];
+RACSubject *numbers = [RACSubject subject];
+RACSubject *signalOfSignals = [RACSubject subject];
+
+RACSignal *switched = [signalOfSignals switchToLatest];
+
+// Outputs: A B 1 D
+[switched subscribeNext:^(NSString *x) {
+    NSLog(@"%@", x);
+}];
+
+[signalOfSignals sendNext:letters]; // 打印letters信号内的值
+[letters sendNext:@"A"];
+[letters sendNext:@"B"];
+
+[signalOfSignals sendNext:numbers]; // 打印numbers信号内的值
+[letters sendNext:@"C"];
+[numbers sendNext:@"1"];
+
+[signalOfSignals sendNext:letters]; // 打印letters信号内的值
+[numbers sendNext:@"2"];
+[letters sendNext:@"D"];
+</code></pre>
+
+<p><code>-rac_signalForSelector:fromProtocol:</code></p>
+
+<p>这个方法主要是把 protocal 转为一个 Signal 便于使用。值得注意的是这个函数返回的是一个 RACTuple。 这个 RACTuple 包含了 Selector 方法里面所有的参数</p>
+
+<p><code>-rac_liftSelector:withSignalsFromArray:</code>
+这个方法它的意思是当传入的 Signals 都至少sendNext过一次，接下来只要其中任意一个signal有了新的内容。就会去触发第一个 selector 参数的方法。</p>
+
+<blockquote><p><a href="http://iiiyu.com/2014/12/26/learning-ios-notes-thirty-six/">ReactiveCocoa 用 RACSignal 替代 Delegate</a></p></blockquote>
 ]]></content>
   </entry>
   

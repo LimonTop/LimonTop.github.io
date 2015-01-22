@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: reading | Limon's Blog]]></title>
+  <link href="http://limon-.github.io//blog/categories/reading/atom.xml" rel="self"/>
+  <link href="http://limon-.github.io//"/>
+  <updated>2015-01-22T18:51:37+08:00</updated>
+  <id>http://limon-.github.io//</id>
+  <author>
+    <name><![CDATA[Limon]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Reading record]]></title>
+    <link href="http://limon-.github.io//blog/2015/01/19/reading-record/"/>
+    <updated>2015-01-19T10:16:07+08:00</updated>
+    <id>http://limon-.github.io//blog/2015/01/19/reading-record</id>
+    <content type="html"><![CDATA[<h1>Reading record</h1>
+
+<h2>ReactiveCocoa</h2>
+
+<p><a href="http://iiiyu.com/2014/12/26/learning-ios-notes-thirty-six/">ReactiveCocoa 用 RACSignal 替代 Delegate</a></p>
+
+<h2>动画</h2>
+
+<p><a href="http://yingkong1987.github.io/blog/2014/05/05/playing-with-pop.html">玩转Facebook开源的Pop库</a></p>
+
+<h2>CocoaPods</h2>
+
+<p><a href="http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/">用CocoaPods做iOS程序的依赖管理</a></p>
+
+<p><a href="http://gracelancy.com/blog/2013/08/11/make-your-own-cocoapods-spec/">制作自己的CocoaPods Spec</a></p>
+
+<p><a href="http://www.iwangke.me/2013/04/18/advanced-cocoapods/">CocoaPods进阶：本地包管理</a></p>
+
+<h2>杂</h2>
+
+<p><a href="http://blog.sunnyxx.com/2014/12/20/64-bit-tips/">64-bit Tips</a></p>
+
+<p><a href="http://blog.sunnyxx.com/2014/10/15/behind-autorelease/">黑幕背后的Autorelease</a></p>
+
+<p><a href="http://mobile.51cto.com/iphone-284112.htm">Objective-C内存管理如何理解Autorelease</a></p>
+
+<p><a href="http://cocoa.venj.me/blog/view-controller-based-status-bar-style-and-uinavigationcontroller/#comment-1501032470">UINavigationController和View Controller-based状态栏风格</a> &mdash;&mdash; 指定状态栏风格</p>
+
+<p><a href="http://gracelancy.com/blog/2014/05/05/variable-argument-lists/">Variable Argument Lists</a> &mdash;&mdash; 可变参数函数的定义</p>
+
+<p><a href="http://onevcat.com/2012/06/arc-hand-by-hand/">手把手教你ARC——iOS/Mac开发ARC入门和使用</a></p>
+]]></content>
+  </entry>
+  
+</feed>
