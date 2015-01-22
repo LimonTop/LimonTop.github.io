@@ -7,7 +7,8 @@
 	<meta name="author" content="Limon">
 
 	
-	<meta name="description" content="内存管理 Jan 22nd, 2015 2:27 pm 内存管理 - 引用计数器 内存管理概述 在Objective-C中，系统并不会自动释放堆中的内存，其他高级语言C#、JAVA都有垃圾回收机制，但在Objective-C中并没有垃圾回收机制，那么Objective-C中的内存是如何管理？ &hellip;">
+	<meta name="description" content="内存管理 Jan 22nd, 2015 2:27 pm 内存管理概述 在Objective-C中，系统并不会自动释放堆中的内存，其他高级语言C#、JAVA都有垃圾回收机制，但在Objective-C中并没有垃圾回收机制，那么Objective-C中的内存是如何管理？
+Objective- &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -52,9 +53,7 @@
 
 		</div>
 		
-		<h1>内存管理 - 引用计数器</h1>
-
-<h2>内存管理概述</h2>
+		<h2>内存管理概述</h2>
 
 <p>在Objective-C中，系统并不会自动释放堆中的内存，其他高级语言C#、JAVA都有垃圾回收机制，但在Objective-C中并没有垃圾回收机制，那么Objective-C中的内存是如何管理？
 Objective-C语言使用引用计数器来管理内存，每个对象都有个可以递增或递减的计数器。如果想使某个对象继续存活，那就递增其引用计数器；用完之后，就递减其计数器；当计数器为0，就表示没人关注此对象，此对象就会被销毁。</p>

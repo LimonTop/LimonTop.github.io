@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 内存管理 | Limon's Blog]]></title>
   <link href="http://limon-.github.io//blog/categories/nei-cun-guan-li/atom.xml" rel="self"/>
   <link href="http://limon-.github.io//"/>
-  <updated>2015-01-22T19:01:28+08:00</updated>
+  <updated>2015-01-22T21:40:01+08:00</updated>
   <id>http://limon-.github.io//</id>
   <author>
     <name><![CDATA[Limon]]></name>
@@ -14,13 +14,22 @@
 
   
   <entry>
+    <title type="html"><![CDATA[内存管理 - ARC]]></title>
+    <link href="http://limon-.github.io//blog/2015/01/22/nei-cun-guan-li-arc/"/>
+    <updated>2015-01-22T18:20:16+08:00</updated>
+    <id>http://limon-.github.io//blog/2015/01/22/nei-cun-guan-li-arc</id>
+    <content type="html"><![CDATA[<p>ARC的一个基本规则即是，只要某个对象被任一strong指针指向，那么它将不会被销毁。</p>
+
+<p>如果对象没有被任何strong指针指向，那么就将被销毁。在默认情况下，所有的实例变量和局部变量都是strong类型的。可以说strong类型的指针在行为上和MRC时代retain的property是比较相似的。</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[内存管理 - 引用计数器]]></title>
     <link href="http://limon-.github.io//blog/2015/01/22/nei-cun-guan-li-yin-yong-ji-shu-qi/"/>
     <updated>2015-01-22T14:27:14+08:00</updated>
     <id>http://limon-.github.io//blog/2015/01/22/nei-cun-guan-li-yin-yong-ji-shu-qi</id>
-    <content type="html"><![CDATA[<h1>内存管理 - 引用计数器</h1>
-
-<h2>内存管理概述</h2>
+    <content type="html"><![CDATA[<h2>内存管理概述</h2>
 
 <p>在Objective-C中，系统并不会自动释放堆中的内存，其他高级语言C#、JAVA都有垃圾回收机制，但在Objective-C中并没有垃圾回收机制，那么Objective-C中的内存是如何管理？
 Objective-C语言使用引用计数器来管理内存，每个对象都有个可以递增或递减的计数器。如果想使某个对象继续存活，那就递增其引用计数器；用完之后，就递减其计数器；当计数器为0，就表示没人关注此对象，此对象就会被销毁。</p>

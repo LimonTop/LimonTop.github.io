@@ -4,7 +4,7 @@
   <title><![CDATA[Category: reactivecocoa | Limon's Blog]]></title>
   <link href="http://limon-.github.io//blog/categories/reactivecocoa/atom.xml" rel="self"/>
   <link href="http://limon-.github.io//"/>
-  <updated>2015-01-22T19:01:28+08:00</updated>
+  <updated>2015-01-22T21:40:01+08:00</updated>
   <id>http://limon-.github.io//</id>
   <author>
     <name><![CDATA[Limon]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ReactiveCocoa]]></title>
-    <link href="http://limon-.github.io//blog/2014/12/28/reactivecocoa/"/>
-    <updated>2014-12-28T17:44:25+08:00</updated>
-    <id>http://limon-.github.io//blog/2014/12/28/reactivecocoa</id>
+    <link href="http://limon-.github.io//blog/2014/09/03/reactivecocoa/"/>
+    <updated>2014-09-03T17:44:25+08:00</updated>
+    <id>http://limon-.github.io//blog/2014/09/03/reactivecocoa</id>
     <content type="html"><![CDATA[<h1>ReactiveCocoa</h1>
 
 <h2>RACSignal</h2>
@@ -219,9 +219,9 @@ RACSignal *switched = [signalOfSignals switchToLatest];
   
   <entry>
     <title type="html"><![CDATA[ReactiveCocoa的三种基本的模式]]></title>
-    <link href="http://limon-.github.io//blog/2014/12/26/reactivecocoa/"/>
-    <updated>2014-12-26T09:35:03+08:00</updated>
-    <id>http://limon-.github.io//blog/2014/12/26/reactivecocoa</id>
+    <link href="http://limon-.github.io//blog/2014/06/10/reactivecocoa/"/>
+    <updated>2014-06-10T09:35:03+08:00</updated>
+    <id>http://limon-.github.io//blog/2014/06/10/reactivecocoa</id>
     <content type="html"><![CDATA[<h1>ReactiveCocoa</h1>
 
 <hr />

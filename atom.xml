@@ -4,7 +4,7 @@
   <title><![CDATA[Limon's Blog]]></title>
   <link href="http://limon-.github.io//atom.xml" rel="self"/>
   <link href="http://limon-.github.io//"/>
-  <updated>2015-01-22T18:58:06+08:00</updated>
+  <updated>2015-01-22T21:40:01+08:00</updated>
   <id>http://limon-.github.io//</id>
   <author>
     <name><![CDATA[Limon]]></name>
@@ -29,9 +29,7 @@
     <link href="http://limon-.github.io//blog/2015/01/22/nei-cun-guan-li-yin-yong-ji-shu-qi/"/>
     <updated>2015-01-22T14:27:14+08:00</updated>
     <id>http://limon-.github.io//blog/2015/01/22/nei-cun-guan-li-yin-yong-ji-shu-qi</id>
-    <content type="html"><![CDATA[<h1>内存管理 - 引用计数器</h1>
-
-<h2>内存管理概述</h2>
+    <content type="html"><![CDATA[<h2>内存管理概述</h2>
 
 <p>在Objective-C中，系统并不会自动释放堆中的内存，其他高级语言C#、JAVA都有垃圾回收机制，但在Objective-C中并没有垃圾回收机制，那么Objective-C中的内存是如何管理？
 Objective-C语言使用引用计数器来管理内存，每个对象都有个可以递增或递减的计数器。如果想使某个对象继续存活，那就递增其引用计数器；用完之后，就递减其计数器；当计数器为0，就表示没人关注此对象，此对象就会被销毁。</p>
@@ -448,9 +446,9 @@ NSString *orderString = [NSString stringWithFormat:@"%@&amp;sign=\"%@\"&amp;sign
   
   <entry>
     <title type="html"><![CDATA[ReactiveCocoa]]></title>
-    <link href="http://limon-.github.io//blog/2014/12/28/reactivecocoa/"/>
-    <updated>2014-12-28T17:44:25+08:00</updated>
-    <id>http://limon-.github.io//blog/2014/12/28/reactivecocoa</id>
+    <link href="http://limon-.github.io//blog/2014/09/03/reactivecocoa/"/>
+    <updated>2014-09-03T17:44:25+08:00</updated>
+    <id>http://limon-.github.io//blog/2014/09/03/reactivecocoa</id>
     <content type="html"><![CDATA[<h1>ReactiveCocoa</h1>
 
 <h2>RACSignal</h2>
@@ -661,9 +659,9 @@ RACSignal *switched = [signalOfSignals switchToLatest];
   
   <entry>
     <title type="html"><![CDATA[CodeChip]]></title>
-    <link href="http://limon-.github.io//blog/2014/12/28/codechip/"/>
-    <updated>2014-12-28T00:10:03+08:00</updated>
-    <id>http://limon-.github.io//blog/2014/12/28/codechip</id>
+    <link href="http://limon-.github.io//blog/2014/07/28/codechip/"/>
+    <updated>2014-07-28T00:10:03+08:00</updated>
+    <id>http://limon-.github.io//blog/2014/07/28/codechip</id>
     <content type="html"><![CDATA[<h1>CodeChip</h1>
 
 <h3>改变UITextfiedl的placeholder的颜色</h3>
@@ -814,10 +812,139 @@ NSArray *b = [a componentsSeparatedByString:@"，"];
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[ReactiveCocoa的三种基本的模式]]></title>
+    <link href="http://limon-.github.io//blog/2014/06/10/reactivecocoa/"/>
+    <updated>2014-06-10T09:35:03+08:00</updated>
+    <id>http://limon-.github.io//blog/2014/06/10/reactivecocoa</id>
+    <content type="html"><![CDATA[<h1>ReactiveCocoa</h1>
+
+<hr />
+
+<h3>三种基本的模式</h3>
+
+<p>在ReactiveCocoa中有三种基本的模式：责任链、分割和组合模式（chaining, splitting, and combining）。</p>
+
+<h4>一、 Chaining模式</h4>
+
+<p>Chaining，将一个已有的signal转换为一个新的signal。常用的操作是创建一个新的signal，再对它使用filter:、map:或startWith:等方法。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RAC(self.textField.text) = [[[RACSignal interval:1] startWith:[NSDate date]] map:^id(NSDate *value) {  
+</span><span class='line'>    NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:value];  
+</span><span class='line'>      
+</span><span class='line'>    return [NSString stringWithFormat:@"%d:%02d", dateComponents.minute, dateComponents.second];  
+</span><span class='line'>}]; 
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们将textFiled的text属性绑定为三个串连的signals的结果。首先，我们创建一个间隔信号，这个信号每隔一秒钟就发送当前时间。间隔信号在没有启动的时候是不会有值的，所以我们使用startWith:启动起来。最后，使用map:将signal的NSDate值转换为一个NSString字符串，这个字符串将会被赋值到textField的text属性上。
+<img src="http://teehanlax.com.s3.amazonaws.com/wordpress/wp-content/uploads/chaining.png" alt="Chaining" /></p>
+
+<p> Chaining是最常用的操作，而且它通常不使用局部变量，而是像上面那样串连起来操作。下面的代码与上面的代码是等同的。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RACSignal *intervalSignal = [RACSignal interval:1];  
+</span><span class='line'>RACSignal *startedIntervalSignal = [intervalSignal startWith:[NSDate date]];  
+</span><span class='line'>RACSignal *mappedIntervalSignal = [startedIntervalSignal map:^id(NSDate *value) {  
+</span><span class='line'>    NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:value];  
+</span><span class='line'>      
+</span><span class='line'>    return [NSString stringWithFormat:@"%d:%02d", dateComponents.minute, dateComponents.second];  
+</span><span class='line'>}];  
+</span><span class='line'>   
+</span><span class='line'>RAC(self.textField.text) = mappedIntervalSignal;  </span></code></pre></td></tr></table></div></figure>
+
+
+<h4>二、Splitting模式</h4>
+
+<p>Splitting与chaining比较类似，也是将signal转换为其它的sginal，不同之处在于，Splitting会重复使用signal。Splitting看起来要复杂些，其实也就是一个signal使用多次。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RACSignal *dateComponentsSignal = [[[RACSignal interval:1] startWith:[NSDate date]] map:^id(NSDate *value) {  
+</span><span class='line'>    NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:value];  
+</span><span class='line'>    return dateComponents;  
+</span><span class='line'>}];  
+</span><span class='line'>   
+</span><span class='line'>RAC(self.minuteTextField.text) = [dateComponentsSignal map:^id(NSDateComponents *dateComponents) {  
+</span><span class='line'>    return [NSString stringWithFormat:@"%d", dateComponents.minute];  
+</span><span class='line'>}];  
+</span><span class='line'>   
+</span><span class='line'>RAC(self.secondTextField.text) = [dateComponentsSignal map:^id(NSDateComponents *dateComponents) {  
+</span><span class='line'>    return [NSString stringWithFormat:@"%d", dateComponents.second];  
+</span><span class='line'>}];  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>在上面这个例子中，创建了一个signal，即局部变量：dateComponentsSignal。接着再用dateComponentsSignal创建两个新的signal，并将它们分别与两个textfield的text属性进行绑定。</p>
+
+<blockquote><p>Note: 把dateComponentsSignal看作一个局部变量，就像,int a = 9; 然后多次使用a来计算。</p></blockquote>
+
+<p><img src="http://teehanlax.com.s3.amazonaws.com/wordpress/wp-content/uploads/Splitting.png" alt="Splitting" /></p>
+
+<h4>三、Combining模式</h4>
+
+<p>combining就是将几个signal结合起来创建出一个新的signal。比如“登录”按钮，只有在“用户名”与“密码”输入框中的文本长度都超过6时才能被点击，否则处于不可用的状态。那么我们可以为“登录”按钮的enabled状态创建一个signal，这个signal则是由“用户名”与“密码”框它们两个自己的signal组合起来：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RAC(self.submitButton.enabled) = [RACSignal combineLatest:@[self.usernameField.rac_textSignal, self.passwordField.rac_textSignal] reduce:^id(NSString *userName, NSString *password) {  
+</span><span class='line'>    return @(userName.length &gt;= 6 && password.length &gt;= 6);  
+</span><span class='line'>}]; </span></code></pre></td></tr></table></div></figure>
+
+
+<p>在这里，我们将“登录”按钮的enable状态绑定到使用combineLatest:reduce:方法创建的signal上。这个方法的第二个参数是一个block，这个block的参数是combineLatest中的参数的<strong>最新值</strong>的组合。我们将两个文本框的text signal一起传到combineLatest，在reduce的block中，该block也就会接收到两个NSString的参数，这个block的工作就是将两个参数值组合起来生成一个值，然后返回。该方法的说明：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// +combineLatest:reduce: takes an array of signals, executes the block with the
+</span><span class='line'>// latest value from each signal whenever any of them changes, and returns a new
+</span><span class='line'>// RACSignal that sends the return value of that block as values.</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://teehanlax.com.s3.amazonaws.com/wordpress/wp-content/uploads/combining.png" alt="Combining" /></p>
+
+<p>Combining常用于两种情况：</p>
+
+<ol>
+<li>需要同时满足多种条件。</li>
+<li>在多个signal中进行选择。</li>
+</ol>
+
+
+<h2>优秀文章</h2>
+
+<p><a href="http://www.teehanlax.com/blog/getting-started-with-reactivecocoa/">Getting Started with ReactiveCocoa</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[#01-字面量语法]]></title>
-    <link href="http://limon-.github.io//blog/2014/12/26/number-01-zi-mian-liang-yu-fa/"/>
-    <updated>2014-12-26T12:40:19+08:00</updated>
-    <id>http://limon-.github.io//blog/2014/12/26/number-01-zi-mian-liang-yu-fa</id>
+    <link href="http://limon-.github.io//blog/2014/05/26/number-01-zi-mian-liang-yu-fa/"/>
+    <updated>2014-05-26T12:40:19+08:00</updated>
+    <id>http://limon-.github.io//blog/2014/05/26/number-01-zi-mian-liang-yu-fa</id>
     <content type="html"><![CDATA[<h2>字面量数值</h2>
 
 <p>普通创建：</p>
@@ -961,139 +1088,10 @@ NSArray *arr = [json objectForKey:@"school_list"];
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[ReactiveCocoa的三种基本的模式]]></title>
-    <link href="http://limon-.github.io//blog/2014/12/26/reactivecocoa/"/>
-    <updated>2014-12-26T09:35:03+08:00</updated>
-    <id>http://limon-.github.io//blog/2014/12/26/reactivecocoa</id>
-    <content type="html"><![CDATA[<h1>ReactiveCocoa</h1>
-
-<hr />
-
-<h3>三种基本的模式</h3>
-
-<p>在ReactiveCocoa中有三种基本的模式：责任链、分割和组合模式（chaining, splitting, and combining）。</p>
-
-<h4>一、 Chaining模式</h4>
-
-<p>Chaining，将一个已有的signal转换为一个新的signal。常用的操作是创建一个新的signal，再对它使用filter:、map:或startWith:等方法。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>RAC(self.textField.text) = [[[RACSignal interval:1] startWith:[NSDate date]] map:^id(NSDate *value) {  
-</span><span class='line'>    NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:value];  
-</span><span class='line'>      
-</span><span class='line'>    return [NSString stringWithFormat:@"%d:%02d", dateComponents.minute, dateComponents.second];  
-</span><span class='line'>}]; 
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>我们将textFiled的text属性绑定为三个串连的signals的结果。首先，我们创建一个间隔信号，这个信号每隔一秒钟就发送当前时间。间隔信号在没有启动的时候是不会有值的，所以我们使用startWith:启动起来。最后，使用map:将signal的NSDate值转换为一个NSString字符串，这个字符串将会被赋值到textField的text属性上。
-<img src="http://teehanlax.com.s3.amazonaws.com/wordpress/wp-content/uploads/chaining.png" alt="Chaining" /></p>
-
-<p> Chaining是最常用的操作，而且它通常不使用局部变量，而是像上面那样串连起来操作。下面的代码与上面的代码是等同的。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>RACSignal *intervalSignal = [RACSignal interval:1];  
-</span><span class='line'>RACSignal *startedIntervalSignal = [intervalSignal startWith:[NSDate date]];  
-</span><span class='line'>RACSignal *mappedIntervalSignal = [startedIntervalSignal map:^id(NSDate *value) {  
-</span><span class='line'>    NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:value];  
-</span><span class='line'>      
-</span><span class='line'>    return [NSString stringWithFormat:@"%d:%02d", dateComponents.minute, dateComponents.second];  
-</span><span class='line'>}];  
-</span><span class='line'>   
-</span><span class='line'>RAC(self.textField.text) = mappedIntervalSignal;  </span></code></pre></td></tr></table></div></figure>
-
-
-<h4>二、Splitting模式</h4>
-
-<p>Splitting与chaining比较类似，也是将signal转换为其它的sginal，不同之处在于，Splitting会重复使用signal。Splitting看起来要复杂些，其实也就是一个signal使用多次。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>RACSignal *dateComponentsSignal = [[[RACSignal interval:1] startWith:[NSDate date]] map:^id(NSDate *value) {  
-</span><span class='line'>    NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:value];  
-</span><span class='line'>    return dateComponents;  
-</span><span class='line'>}];  
-</span><span class='line'>   
-</span><span class='line'>RAC(self.minuteTextField.text) = [dateComponentsSignal map:^id(NSDateComponents *dateComponents) {  
-</span><span class='line'>    return [NSString stringWithFormat:@"%d", dateComponents.minute];  
-</span><span class='line'>}];  
-</span><span class='line'>   
-</span><span class='line'>RAC(self.secondTextField.text) = [dateComponentsSignal map:^id(NSDateComponents *dateComponents) {  
-</span><span class='line'>    return [NSString stringWithFormat:@"%d", dateComponents.second];  
-</span><span class='line'>}];  </span></code></pre></td></tr></table></div></figure>
-
-
-<p>在上面这个例子中，创建了一个signal，即局部变量：dateComponentsSignal。接着再用dateComponentsSignal创建两个新的signal，并将它们分别与两个textfield的text属性进行绑定。</p>
-
-<blockquote><p>Note: 把dateComponentsSignal看作一个局部变量，就像,int a = 9; 然后多次使用a来计算。</p></blockquote>
-
-<p><img src="http://teehanlax.com.s3.amazonaws.com/wordpress/wp-content/uploads/Splitting.png" alt="Splitting" /></p>
-
-<h4>三、Combining模式</h4>
-
-<p>combining就是将几个signal结合起来创建出一个新的signal。比如“登录”按钮，只有在“用户名”与“密码”输入框中的文本长度都超过6时才能被点击，否则处于不可用的状态。那么我们可以为“登录”按钮的enabled状态创建一个signal，这个signal则是由“用户名”与“密码”框它们两个自己的signal组合起来：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>RAC(self.submitButton.enabled) = [RACSignal combineLatest:@[self.usernameField.rac_textSignal, self.passwordField.rac_textSignal] reduce:^id(NSString *userName, NSString *password) {  
-</span><span class='line'>    return @(userName.length &gt;= 6 && password.length &gt;= 6);  
-</span><span class='line'>}]; </span></code></pre></td></tr></table></div></figure>
-
-
-<p>在这里，我们将“登录”按钮的enable状态绑定到使用combineLatest:reduce:方法创建的signal上。这个方法的第二个参数是一个block，这个block的参数是combineLatest中的参数的<strong>最新值</strong>的组合。我们将两个文本框的text signal一起传到combineLatest，在reduce的block中，该block也就会接收到两个NSString的参数，这个block的工作就是将两个参数值组合起来生成一个值，然后返回。该方法的说明：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// +combineLatest:reduce: takes an array of signals, executes the block with the
-</span><span class='line'>// latest value from each signal whenever any of them changes, and returns a new
-</span><span class='line'>// RACSignal that sends the return value of that block as values.</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img src="http://teehanlax.com.s3.amazonaws.com/wordpress/wp-content/uploads/combining.png" alt="Combining" /></p>
-
-<p>Combining常用于两种情况：</p>
-
-<ol>
-<li>需要同时满足多种条件。</li>
-<li>在多个signal中进行选择。</li>
-</ol>
-
-
-<h2>优秀文章</h2>
-
-<p><a href="http://www.teehanlax.com/blog/getting-started-with-reactivecocoa/">Getting Started with ReactiveCocoa</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[玩转Mantle]]></title>
-    <link href="http://limon-.github.io//blog/2014/12/23/mantlede-shi-yong/"/>
-    <updated>2014-12-23T10:05:15+08:00</updated>
-    <id>http://limon-.github.io//blog/2014/12/23/mantlede-shi-yong</id>
+    <link href="http://limon-.github.io//blog/2014/04/23/mantlede-shi-yong/"/>
+    <updated>2014-04-23T10:05:15+08:00</updated>
+    <id>http://limon-.github.io//blog/2014/04/23/mantlede-shi-yong</id>
     <content type="html"><![CDATA[<h2>MTLModel</h2>
 
 <p>MTLModel provides an easy way to map NSDictionary objects to Objective-C classes and vice-versa.</p>
