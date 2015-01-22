@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 内存管理 | Limon's Blog]]></title>
   <link href="http://limon-.github.io//blog/categories/nei-cun-guan-li/atom.xml" rel="self"/>
   <link href="http://limon-.github.io//"/>
-  <updated>2015-01-22T22:15:56+08:00</updated>
+  <updated>2015-01-22T23:40:55+08:00</updated>
   <id>http://limon-.github.io//</id>
   <author>
     <name><![CDATA[Limon]]></name>
@@ -18,7 +18,132 @@
     <link href="http://limon-.github.io//blog/2015/01/22/nei-cun-guan-li-arc/"/>
     <updated>2015-01-22T18:20:16+08:00</updated>
     <id>http://limon-.github.io//blog/2015/01/22/nei-cun-guan-li-arc</id>
-    <content type="html"><![CDATA[<p>ARC的一个基本规则即是，只要某个对象被任一strong指针指向，那么它将不会被销毁。</p>
+    <content type="html"><![CDATA[<h2>什么是ARC</h2>
+
+<p>Automatic Reference Counting，自动引用计数，即ARC。</p>
+
+<p>在ARC下，不需用retain,release,autorelease来管理内存，它提供了自动评估内存生存期的功能，并且在编译期间自动加入合适的管理内存的方法。编译器也会自动生成dealloc函数。</p>
+
+<h3>ARC工作原理</h3>
+
+<p>ARC并不是一项运行时的服务，实际上它是由Clang front-end提供的两段过程。下图演示了这两段过程。在front-end段时，Clang检查每个预处理文件的对象和属性。然后它跟据一些固定的规则将retain，release和autorelease语句加入其中。</p>
+
+<p><img src="http://limons-gitimage.stor.sinaapp.com/CFigure4.gif" alt="" /></p>
+
+<p>举例来说：</p>
+
+<ul>
+<li>如果对象被分配内存并处于一个方法当中，它会在这个方法的结尾处获得一个release语句</li>
+<li>如果是一个类属性，它的release语句会加入到类的dealloc方法中</li>
+<li>如果这个对象是用来返回的或者它是一个容器对象，它会加入一个autorelease语句</li>
+<li>如果这个对象是弱引用，把它放在一边不管它。</li>
+</ul>
+
+
+<blockquote><p>译于：<a href="http://www.drdobbs.com/mobile/automatic-reference-counting-on-ios/240000820">Automatic Reference Counting on iOS</a></p></blockquote>
+
+<h3>代码演示</h3>
+
+<h4>MRC下</h4>
+
+<pre><code>@class Bar;
+@interface Foo
+{
+@private
+    NSString *myStr;
+}
+@property (readonly) NSString *myStr;
+
+- (Bar *)foo2Bar:(NSString *)aStr;
+- (Bar *)makeBar;
+//...
+@end
+
+
+@implementation Foo;
+@dynamic myStr;
+
+– (Bar *)foo2Bar:(NSString *)aStr
+{
+    Bar *tBar;
+
+    if (![self.myStr isEqualToString:aStr])
+    {
+        [aStr retain];
+        [myStr release];
+        myStr = aStr;
+    }  
+    return ([self makeBar]);
+}
+
+- (Bar *)makeBar
+{
+    Bar *tBar
+    //...
+    //... conversion code goes here
+    //...
+    [tBar autorelease];
+    return (tBar);
+}
+//...
+
+- (void)dealloc
+{
+    [myStr release];
+    [super dealloc];
+}
+@end
+</code></pre>
+
+<h4>ARC下</h4>
+
+<pre><code>@class Bar;
+@interface Foo
+{
+@private
+    NSString *myStr;
+}
+@property(readonly) NSString *myStr;
+
+- (Bar *)foo2Bar:(NSString *)aStr;
+- (Bar *)makeBar;
+//...
+@end
+
+
+@implementation Foo;
+@dynamic myStr;
+
+– (Bar *)foo2Bar:(NSString *)aStr
+{
+    Bar *tBar;
+
+    if (![self.myStr isEqualToString:aStr])
+    {
+        myStr = aStr;
+    }  
+    return ([self makeBar]);
+}
+
+- (Bar *)makeBar
+{
+    Bar *tBar
+    //...
+    //... conversion code goes here
+    //...
+    return (tBar);
+}
+//...
+@end
+</code></pre>
+
+<blockquote><p>以上代码来源于：<a href="http://www.drdobbs.com/mobile/automatic-reference-counting-on-ios/240000820">Automatic Reference Counting on iOS</a></p></blockquote>
+
+<h2>ARC下内存管理</h2>
+
+<p>在MRC下，如果需要用retain来递增计数器，而现在不用了，现在唯一需要的是，用一个强指针指向该对象，只要指针没有被空置，该对象会一直在堆上。</p>
+
+<p>ARC下内存管理的一个基本规则即是，只要某个对象被任一strong指针指向，那么它将不会被回收。</p>
 
 <p>如果对象没有被任何strong指针指向，那么就将被销毁。在默认情况下，所有的实例变量和局部变量都是strong类型的。可以说strong类型的指针在行为上和MRC时代retain的property是比较相似的。</p>
 ]]></content>
