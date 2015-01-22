@@ -4,7 +4,7 @@
   <title><![CDATA[Category: autorelease | Limon's Blog]]></title>
   <link href="http://limon-.github.io//blog/categories/autorelease/atom.xml" rel="self"/>
   <link href="http://limon-.github.io//"/>
-  <updated>2015-01-22T18:51:37+08:00</updated>
+  <updated>2015-01-22T19:01:28+08:00</updated>
   <id>http://limon-.github.io//</id>
   <author>
     <name><![CDATA[Limon]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[内存管理のAutorelease]]></title>
+    <title type="html"><![CDATA[内存管理 - Autorelease]]></title>
     <link href="http://limon-.github.io//blog/2015/01/19/autoreleasepool/"/>
     <updated>2015-01-19T16:12:34+08:00</updated>
     <id>http://limon-.github.io//blog/2015/01/19/autoreleasepool</id>

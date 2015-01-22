@@ -88,11 +88,13 @@ NSObject协议声明了三个方法用于操作计数器</p>
 
 <h3>图表演示</h3>
 
-<p>下图演示了一个对象自创建出来之后经历一次retain及两次release操作的过程
-<img src="http://limons-gitimage.stor.sinaapp.com/Memory.png" alt="Memory" /></p>
+<p>下图演示了一个对象自创建出来之后经历一次retain及两次release操作的过程</p>
 
-<p>下图所示的对象图中，ObjectB和ObjectC都引用了ObjectA，若B和C都不再使用A，则其计数器为0，便被回收。还有OrderObject想令B和C继续存活，而应用程序里又有另外的对象想令OrderObject继续存活，如果按“引用树“回溯，那么会发现一个“根对象”，在iOS中，则是UIApplication对象。此”根对象”是应用程序启动时创建的单例。
-<img src="http://limons-gitimage.stor.sinaapp.com/Memory-2.png" alt="Memory" /></p>
+<p><img src="http://limons-gitimage.stor.sinaapp.com/Memory.png" alt="Memory" /></p>
+
+<p>下图所示的对象图中，ObjectB和ObjectC都引用了ObjectA，若B和C都不再使用A，则其计数器为0，便被回收。还有OrderObject想令B和C继续存活，而应用程序里又有另外的对象想令OrderObject继续存活，如果按“引用树“回溯，那么会发现一个“根对象”，在iOS中，则是UIApplication对象。此”根对象”是应用程序启动时创建的单例。</p>
+
+<p><img src="http://limons-gitimage.stor.sinaapp.com/Memory-2.png" alt="Memory" /></p>
 
 <h3>代码演示</h3>
 

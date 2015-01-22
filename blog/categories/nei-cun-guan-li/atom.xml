@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 内存管理 | Limon's Blog]]></title>
   <link href="http://limon-.github.io//blog/categories/nei-cun-guan-li/atom.xml" rel="self"/>
   <link href="http://limon-.github.io//"/>
-  <updated>2015-01-22T18:51:37+08:00</updated>
+  <updated>2015-01-22T19:01:28+08:00</updated>
   <id>http://limon-.github.io//</id>
   <author>
     <name><![CDATA[Limon]]></name>
@@ -12,17 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[内存管理 - ARC]]></title>
-    <link href="http://limon-.github.io//blog/2015/01/22/nei-cun-guan-li-arc/"/>
-    <updated>2015-01-22T18:20:16+08:00</updated>
-    <id>http://limon-.github.io//blog/2015/01/22/nei-cun-guan-li-arc</id>
-    <content type="html"><![CDATA[<p>ARC的一个基本规则即是，只要某个对象被任一strong指针指向，那么它将不会被销毁。</p>
-
-<p>如果对象没有被任何strong指针指向，那么就将被销毁。在默认情况下，所有的实例变量和局部变量都是strong类型的。可以说strong类型的指针在行为上和MRC时代retain的property是比较相似的。</p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[内存管理 - 引用计数器]]></title>
@@ -65,11 +54,13 @@ NSObject协议声明了三个方法用于操作计数器</p>
 
 <h3>图表演示</h3>
 
-<p>下图演示了一个对象自创建出来之后经历一次retain及两次release操作的过程
-<img src="http://limons-gitimage.stor.sinaapp.com/Memory.png" alt="Memory" /></p>
+<p>下图演示了一个对象自创建出来之后经历一次retain及两次release操作的过程</p>
 
-<p>下图所示的对象图中，ObjectB和ObjectC都引用了ObjectA，若B和C都不再使用A，则其计数器为0，便被回收。还有OrderObject想令B和C继续存活，而应用程序里又有另外的对象想令OrderObject继续存活，如果按“引用树“回溯，那么会发现一个“根对象”，在iOS中，则是UIApplication对象。此”根对象”是应用程序启动时创建的单例。
-<img src="http://limons-gitimage.stor.sinaapp.com/Memory-2.png" alt="Memory" /></p>
+<p><img src="http://limons-gitimage.stor.sinaapp.com/Memory.png" alt="Memory" /></p>
+
+<p>下图所示的对象图中，ObjectB和ObjectC都引用了ObjectA，若B和C都不再使用A，则其计数器为0，便被回收。还有OrderObject想令B和C继续存活，而应用程序里又有另外的对象想令OrderObject继续存活，如果按“引用树“回溯，那么会发现一个“根对象”，在iOS中，则是UIApplication对象。此”根对象”是应用程序启动时创建的单例。</p>
+
+<p><img src="http://limons-gitimage.stor.sinaapp.com/Memory-2.png" alt="Memory" /></p>
 
 <h3>代码演示</h3>
 
