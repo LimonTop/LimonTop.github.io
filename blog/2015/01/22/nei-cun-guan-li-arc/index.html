@@ -7,7 +7,7 @@
 	<meta name="author" content="Limon">
 
 	
-	<meta name="description" content="内存管理 Jan 22nd, 2015 6:20 pm 什么是ARC Automatic Reference Counting，自动引用计数，即ARC。 在ARC下，不需用retain,release,autorelease来管理内存，它提供了自动评估内存生存期的功能， &hellip;">
+	<meta name="description" content="内存管理 Jan 22nd, 2015 6:20 pm 什么是ARC Automatic Reference Counting，自动引用计数，即ARC。 在ARC下，不需用retain,release,autorelease,dealloc来管理内存，它提供了自动评估内存生存期的功能， &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -56,11 +56,13 @@
 
 <p>Automatic Reference Counting，自动引用计数，即ARC。</p>
 
-<p>在ARC下，不需用retain,release,autorelease来管理内存，它提供了自动评估内存生存期的功能，并且在编译期间自动加入合适的管理内存的方法。编译器也会自动生成dealloc函数。</p>
+<p>在ARC下，不需用retain,release,autorelease,dealloc来管理内存，它提供了自动评估内存生存期的功能，并且在编译期间自动加入合适的管理内存的方法。编译器也会自动生成dealloc函数。</p>
 
 <h3>ARC工作原理</h3>
 
 <p>ARC并不是一项运行时的服务，实际上它是由Clang front-end提供的两段过程。下图演示了这两段过程。在front-end段时，Clang检查每个预处理文件的对象和属性。然后它跟据一些固定的规则将retain，release和autorelease语句加入其中。</p>
+
+<blockquote><p>实际上，ARC在调用retain,release,autorelease,dealloc方法时，并不通过Objective-C消息派送机制，而是直接调用C。比如，ARC会调用与retain等价的objc_retain</p></blockquote>
 
 <p><img src="http://limons-gitimage.stor.sinaapp.com/CFigure4.gif" alt="" /></p>
 
@@ -260,11 +262,25 @@
 
 <h2>ARC下内存管理</h2>
 
-<p>在MRC下，如果需要用retain来递增计数器，而现在不用了，现在唯一需要的是，用一个强指针指向该对象，只要指针没有被空置，该对象会一直在堆上。</p>
+<h4>strong</h4>
 
-<p>ARC下内存管理的一个基本规则即是，只要某个对象被任一strong指针指向，那么它将不会被回收。</p>
+<p>在MRC下，如果想令一个对象继续存活，需用retain来递增计数器，不过ARC已经在编译时帮我们加入了retain、release等，现在唯一需要的是，用一个强指针指向该对象，只要指针没有被空置，该对象会一直在堆上。</p>
 
-<p>如果对象没有被任何strong指针指向，那么就将被销毁。在默认情况下，所有的实例变量和局部变量都是strong类型的。可以说strong类型的指针在行为上和MRC时代retain的property是比较相似的。</p>
+<blockquote><p>实际上，不论MRC和ARC下，还是在用引用计数来管理内存，具体请看：<a href="http://limon-.github.io/blog/2015/01/13/nei-cun-guan-li-yin-yong-ji-shu-qi/">内存管理 - 引用计数器</a></p></blockquote>
+
+<p>ARC下内存管理的一个基本规则：只要某个对象被任一strong指针指向，那么它将不会被回收。</p>
+
+<p>如果对象没有被任何<code>strong</code>指针指向，那么就将被销毁。在默认情况下，所有的实例变量和局部变量都是strong类型的。可以说strong类型的指针在行为上和MRC时代retain的property是比较相似的。</p>
+
+<h4>weak</h4>
+
+<p>weak常用在两个对象间存在包含关系时：对象A有一个strong指针指向对象B，并持有它，而对象B中也有一个weak指针指回对象B，从而避免了循环持有。</p>
+
+<p>一个常见的例子就是delegate设计模式，viewController中有一个strong指针指向它所负责管理的UITableView，而UITableView中的dataSource和delegate指针都是指向viewController的weak指针。可以说，weak指针的行为和MRC时代的assign有一些相似点，但是考虑到weak指针更聪明些（会自动指向nil）</p>
+
+<p><img src="http://limons-gitimage.stor.sinaapp.com/arcpic7.png" alt="" /></p>
+
+<blockquote><p>代理模式可以简单认为，两个对象之间形成&#8221;半保留环&#8221;（A对象强指针指向B对象，B对象弱指针指向A对象）</p></blockquote>
 
 	</div>
 

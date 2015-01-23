@@ -4,7 +4,7 @@
   <title><![CDATA[Limon's Blog]]></title>
   <link href="http://limon-.github.io//atom.xml" rel="self"/>
   <link href="http://limon-.github.io//"/>
-  <updated>2015-01-22T23:40:55+08:00</updated>
+  <updated>2015-01-23T11:31:04+08:00</updated>
   <id>http://limon-.github.io//</id>
   <author>
     <name><![CDATA[Limon]]></name>
@@ -22,11 +22,13 @@
 
 <p>Automatic Reference Counting，自动引用计数，即ARC。</p>
 
-<p>在ARC下，不需用retain,release,autorelease来管理内存，它提供了自动评估内存生存期的功能，并且在编译期间自动加入合适的管理内存的方法。编译器也会自动生成dealloc函数。</p>
+<p>在ARC下，不需用retain,release,autorelease,dealloc来管理内存，它提供了自动评估内存生存期的功能，并且在编译期间自动加入合适的管理内存的方法。编译器也会自动生成dealloc函数。</p>
 
 <h3>ARC工作原理</h3>
 
 <p>ARC并不是一项运行时的服务，实际上它是由Clang front-end提供的两段过程。下图演示了这两段过程。在front-end段时，Clang检查每个预处理文件的对象和属性。然后它跟据一些固定的规则将retain，release和autorelease语句加入其中。</p>
+
+<blockquote><p>实际上，ARC在调用retain,release,autorelease,dealloc方法时，并不通过Objective-C消息派送机制，而是直接调用C。比如，ARC会调用与retain等价的objc_retain</p></blockquote>
 
 <p><img src="http://limons-gitimage.stor.sinaapp.com/CFigure4.gif" alt="" /></p>
 
@@ -226,11 +228,25 @@
 
 <h2>ARC下内存管理</h2>
 
-<p>在MRC下，如果需要用retain来递增计数器，而现在不用了，现在唯一需要的是，用一个强指针指向该对象，只要指针没有被空置，该对象会一直在堆上。</p>
+<h4>strong</h4>
 
-<p>ARC下内存管理的一个基本规则即是，只要某个对象被任一strong指针指向，那么它将不会被回收。</p>
+<p>在MRC下，如果想令一个对象继续存活，需用retain来递增计数器，不过ARC已经在编译时帮我们加入了retain、release等，现在唯一需要的是，用一个强指针指向该对象，只要指针没有被空置，该对象会一直在堆上。</p>
 
-<p>如果对象没有被任何strong指针指向，那么就将被销毁。在默认情况下，所有的实例变量和局部变量都是strong类型的。可以说strong类型的指针在行为上和MRC时代retain的property是比较相似的。</p>
+<blockquote><p>实际上，不论MRC和ARC下，还是在用引用计数来管理内存，具体请看：<a href="http://limon-.github.io/blog/2015/01/13/nei-cun-guan-li-yin-yong-ji-shu-qi/">内存管理 - 引用计数器</a></p></blockquote>
+
+<p>ARC下内存管理的一个基本规则：只要某个对象被任一strong指针指向，那么它将不会被回收。</p>
+
+<p>如果对象没有被任何<code>strong</code>指针指向，那么就将被销毁。在默认情况下，所有的实例变量和局部变量都是strong类型的。可以说strong类型的指针在行为上和MRC时代retain的property是比较相似的。</p>
+
+<h4>weak</h4>
+
+<p>weak常用在两个对象间存在包含关系时：对象A有一个strong指针指向对象B，并持有它，而对象B中也有一个weak指针指回对象B，从而避免了循环持有。</p>
+
+<p>一个常见的例子就是delegate设计模式，viewController中有一个strong指针指向它所负责管理的UITableView，而UITableView中的dataSource和delegate指针都是指向viewController的weak指针。可以说，weak指针的行为和MRC时代的assign有一些相似点，但是考虑到weak指针更聪明些（会自动指向nil）</p>
+
+<p><img src="http://limons-gitimage.stor.sinaapp.com/arcpic7.png" alt="" /></p>
+
+<blockquote><p>代理模式可以简单认为，两个对象之间形成&#8221;半保留环&#8221;（A对象强指针指向B对象，B对象弱指针指向A对象）</p></blockquote>
 ]]></content>
   </entry>
   
@@ -377,6 +393,8 @@ objc_autoreleasePoolPop(context);
 
 <p><a href="http://yingkong1987.github.io/blog/2014/05/05/playing-with-pop.html">玩转Facebook开源的Pop库</a></p>
 
+<p><a href="http://www.cnblogs.com/kenshincui/p/3972100.html#autoid-3-3-0">iOS开发系列&ndash;让你的应用“动”起来</a></p>
+
 <h2>CocoaPods</h2>
 
 <p><a href="http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/">用CocoaPods做iOS程序的依赖管理</a></p>
@@ -396,11 +414,13 @@ objc_autoreleasePoolPop(context);
 <p><a href="http://cocoa.venj.me/blog/view-controller-based-status-bar-style-and-uinavigationcontroller/#comment-1501032470">UINavigationController和View Controller-based状态栏风格</a> &mdash;&mdash; 指定状态栏风格</p>
 
 <p><a href="http://gracelancy.com/blog/2014/05/05/variable-argument-lists/">Variable Argument Lists</a> &mdash;&mdash; 可变参数函数的定义</p>
+
+<p><a href="http://www.imooc.com/wenda/detail/244497">100个iOS开发/设计面试题汇总</a></p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[内存管理 - 引用计数器]]></title>
+    <title type="html"><![CDATA[内存管理 - 引用计数]]></title>
     <link href="http://limon-.github.io//blog/2015/01/13/nei-cun-guan-li-yin-yong-ji-shu-qi/"/>
     <updated>2015-01-13T14:27:14+08:00</updated>
     <id>http://limon-.github.io//blog/2015/01/13/nei-cun-guan-li-yin-yong-ji-shu-qi</id>
