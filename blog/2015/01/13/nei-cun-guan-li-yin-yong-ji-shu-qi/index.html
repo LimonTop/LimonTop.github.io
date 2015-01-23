@@ -135,6 +135,10 @@ NSLog(@"%lu",(unsigned long)[object retainCount]);
 
 <h3>悬挂指针</h3>
 
+<p>当所指向的对象被释放或者收回，此情况下该指针便称悬垂指针（也叫迷途指针）。</p>
+
+<blockquote><p>某些编程语言允许未初始化的指针的存在，而这类指针即为野指针。</p></blockquote>
+
 <p>为什么对象被回收了，向其发送消息不会崩？代码如下：</p>
 
 <pre><code>NSNumber *number = [[NSNumber alloc] initWithInt:1337];
@@ -153,7 +157,7 @@ NSLog(@"number = %@",number);
 <pre><code>NSNumber *number = [[NSNumber alloc] initWithInt:1337];
 
 [number release];
-number = nil; // 悬挂指针（dangling pointer）
+number = nil; 
 </code></pre>
 
 <blockquote><p>在Objective-C中，向nil发送消息不会出错。</p></blockquote>

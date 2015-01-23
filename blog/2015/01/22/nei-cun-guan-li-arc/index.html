@@ -260,7 +260,74 @@
 
 <blockquote><p>以上代码来源于：<a href="http://www.drdobbs.com/mobile/automatic-reference-counting-on-ios/240000820">Automatic Reference Counting on iOS</a></p></blockquote>
 
-<h2>ARC下内存管理</h2>
+<h2>ARC下内存管理 &mdash; 内存管理语义</h2>
+
+<p>ARC帮助我们解决90%内存管理为题，剩余的10%包括：</p>
+
+<ul>
+<li>属性(property)的内存管理语义是用strong、还是weak？</li>
+<li>循环引用（retain cycle）问题</li>
+<li>CoreFoundation对象不归ARC管理</li>
+</ul>
+
+
+<h3>属性</h3>
+
+<p>属性(property)是Objective-C的一项特性，用于封装对象中的数据。Objective-C对象通常会把其所需要的数据保存为各种实例变量。实例变量一般通过getter、setter来访问。</p>
+
+<p><code>@property(nonatomic, strong) NSArray *emailList;</code></p>
+
+<p>此<code>@property</code>会自动生成三个东西：_emailList实例变量、getter、setter</p>
+
+<p>属性用于封装数据，而数据则要有“具体的所有权语义”(concrete ownership semantic)，也称为内存管理语义。</p>
+
+<p>回归本题，在ARC下，我们通常用<strong>内存管理语义</strong>来管理内存，下面这一组语义仅会影响setter。例如，用setter设定一个新值时，它是应该“保留”(retain)此值呢，还是只将其赋给底层实例变量就好？这些取决于你是用strong，还是copy，还是assign等</p>
+
+<ul>
+<li><p><code>assign</code>  对“纯量类型”(scalar type)的简单赋值
+  -(void)setState:(int)State{<br/>
+      _state = state;<br/>
+  }</p></li>
+<li><p><code>unsafe_unretained</code>  此语义与<code>assign</code>相同，但是它适用于&#8221;对象类型&#8221;，该语义表达一种&#8221;非拥有关系&#8221;(unretained),当对象被销毁时，属性值不会自动清空(&ldquo;不安全&rdquo;,unsafe)，这一点与<code>weak</code>有区别</p></li>
+<li><p><code>weak</code>  该语义表达一种&#8221;非拥有关系&#8221;，为这种属性设置新值时，设置方法既不保留新值，也不释放旧值，即仅作简单赋值，类似<code>assign</code>，当对象销毁，属性值被赋值为<code>nil</code></p></li>
+<li><p><code>strong</code>  该语义表达一种&#8221;拥有关系&#8221;，为这种属性值设置新值时，设置方法会先保留新值，再释放旧值，最后把新值设置上去</p>
+
+<pre><code>  -(void)setName:(NSArray *)emailList{    
+      if ( emailList != _emailList){
+          [emailList retain]; // 保留新值
+          [_emailList release]; // 释放旧值
+          _emailList = emailList;
+      }   
+  }
+</code></pre></li>
+</ul>
+
+
+<p>此setter将保留新值并释放旧值，然后更新实例变量，令其指向新值。顺序很重要，假如两个值都指向对象A，还未保留新值就先把旧值释放了，那么先执行的release操作就可能导致对象A被回收，而后续的retain操作并无法令对象A复生，于是实例变量就成了悬挂指针</p>
+
+<blockquote><p>当所指向的对象被释放或者收回，此情况下该指针便称悬垂指针（也叫迷途指针）。</p></blockquote>
+
+<ul>
+<li><p>copy  此语义与strong类似，不同在于setter并不保留新值，而是将其<code>copy</code>，如下：</p>
+
+<pre><code>  @property (nonatomic, copy) NSString *name;
+
+  -(void)setName:(NSString*)name{  
+      if ( name != _name){  
+          [_name release];
+          _name = nil;
+          _name = [name copy]; 
+      }  
+  }
+</code></pre></li>
+</ul>
+
+
+<p>使用copy可以用来保护数据的封装性，比方说，传递过来的新值是一个NSMutableString的实例，此时若不<code>copy</code>，当设置完属性值之后，该可变新值在对象不知情的情况下遭人更改。所以，这时就要<code>copy</code>一份“不可变”(immutable)的字符串，确保对象中的字符串值不会不会无意间变动。</p>
+
+<h3>ARC下内存管理 &mdash; 基本规则</h3>
+
+<p>ARC下内存管理的一个基本规则：只要某个对象被任一strong指针指向，那么它将不会被回收。</p>
 
 <h4>strong</h4>
 
@@ -268,9 +335,7 @@
 
 <blockquote><p>实际上，不论MRC和ARC下，还是在用引用计数来管理内存，具体请看：<a href="http://limon-.github.io/blog/2015/01/13/nei-cun-guan-li-yin-yong-ji-shu-qi/">内存管理 - 引用计数器</a></p></blockquote>
 
-<p>ARC下内存管理的一个基本规则：只要某个对象被任一strong指针指向，那么它将不会被回收。</p>
-
-<p>如果对象没有被任何<code>strong</code>指针指向，那么就将被销毁。在默认情况下，所有的实例变量和局部变量都是strong类型的。可以说strong类型的指针在行为上和MRC时代retain的property是比较相似的。</p>
+<p>在默认情况下，所有的实例变量和局部变量都是strong类型的。可以说strong类型的指针在行为上和MRC时代的retain是比较相似的。</p>
 
 <h4>weak</h4>
 
@@ -281,6 +346,21 @@
 <p><img src="http://limons-gitimage.stor.sinaapp.com/arcpic7.png" alt="" /></p>
 
 <blockquote><p>代理模式可以简单认为，两个对象之间形成&#8221;半保留环&#8221;（A对象强指针指向B对象，B对象弱指针指向A对象）</p></blockquote>
+
+<h3>ARC下内存管理 &mdash; 循环引用</h3>
+
+<p>接下来简单讲讲容易循环引用的场景，详情请看<a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/EncapsulatingData/EncapsulatingData.html#//apple_ref/doc/uid/TP40011210-CH5-SW3">官方文档</a>的相关资料</p>
+
+<h4>委托模式</h4>
+
+<pre><code>@property (nonatomic,weak) id&lt;ComposeToolbarButtonTypeDelegate&gt; delegate; 
+</code></pre>
+
+<p>用<code>weak</code>形成“半保留环”，防止循环引用</p>
+
+<h4>block</h4>
+
+<p>这个网上大把，可以看看<a href="http://www.cnbluebox.com/?p=255">block使用小结、在arc中使用block、如何防止循环引用</a></p>
 
 	</div>
 
