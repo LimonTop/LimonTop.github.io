@@ -4,7 +4,7 @@
   <title><![CDATA[Category: record | Limon's Blog]]></title>
   <link href="http://limon-.github.io//blog/categories/record/atom.xml" rel="self"/>
   <link href="http://limon-.github.io//"/>
-  <updated>2015-01-26T13:36:58+08:00</updated>
+  <updated>2015-01-26T13:49:03+08:00</updated>
   <id>http://limon-.github.io//</id>
   <author>
     <name><![CDATA[Limon]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Reading record]]></title>
-    <link href="http://limon-.github.io//blog/2015/01/19/reading-record/"/>
-    <updated>2015-01-19T10:16:07+08:00</updated>
-    <id>http://limon-.github.io//blog/2015/01/19/reading-record</id>
+    <link href="http://limon-.github.io//blog/2015/01/18/reading-record/"/>
+    <updated>2015-01-18T10:16:07+08:00</updated>
+    <id>http://limon-.github.io//blog/2015/01/18/reading-record</id>
     <content type="html"><![CDATA[<h2>Swift</h2>
 
 <h2>ReactiveCocoa</h2>

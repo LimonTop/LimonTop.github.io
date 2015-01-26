@@ -4,7 +4,7 @@
   <title><![CDATA[Category: chip | Limon's Blog]]></title>
   <link href="http://limon-.github.io//blog/categories/chip/atom.xml" rel="self"/>
   <link href="http://limon-.github.io//"/>
-  <updated>2015-01-26T13:36:58+08:00</updated>
+  <updated>2015-01-26T13:49:03+08:00</updated>
   <id>http://limon-.github.io//</id>
   <author>
     <name><![CDATA[Limon]]></name>
@@ -18,9 +18,7 @@
     <link href="http://limon-.github.io//blog/2014/07/28/codechip/"/>
     <updated>2014-07-28T00:10:03+08:00</updated>
     <id>http://limon-.github.io//blog/2014/07/28/codechip</id>
-    <content type="html"><![CDATA[<h1>CodeChip</h1>
-
-<h3>改变UITextfiedl的placeholder的颜色</h3>
+    <content type="html"><![CDATA[<h3>改变UITextfiedl的placeholder的颜色</h3>
 
 <pre><code>[searchField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
 </code></pre>

@@ -4,7 +4,7 @@
   <title><![CDATA[Limon's Blog]]></title>
   <link href="http://limon-.github.io//atom.xml" rel="self"/>
   <link href="http://limon-.github.io//"/>
-  <updated>2015-01-26T13:36:58+08:00</updated>
+  <updated>2015-01-26T13:49:03+08:00</updated>
   <id>http://limon-.github.io//</id>
   <author>
     <name><![CDATA[Limon]]></name>
@@ -1022,9 +1022,9 @@ objc_autoreleasePoolPop(context);
   
   <entry>
     <title type="html"><![CDATA[Reading record]]></title>
-    <link href="http://limon-.github.io//blog/2015/01/19/reading-record/"/>
-    <updated>2015-01-19T10:16:07+08:00</updated>
-    <id>http://limon-.github.io//blog/2015/01/19/reading-record</id>
+    <link href="http://limon-.github.io//blog/2015/01/18/reading-record/"/>
+    <updated>2015-01-18T10:16:07+08:00</updated>
+    <id>http://limon-.github.io//blog/2015/01/18/reading-record</id>
     <content type="html"><![CDATA[<h2>Swift</h2>
 
 <h2>ReactiveCocoa</h2>
@@ -1569,9 +1569,7 @@ RACSignal *switched = [signalOfSignals switchToLatest];
     <link href="http://limon-.github.io//blog/2014/07/28/codechip/"/>
     <updated>2014-07-28T00:10:03+08:00</updated>
     <id>http://limon-.github.io//blog/2014/07/28/codechip</id>
-    <content type="html"><![CDATA[<h1>CodeChip</h1>
-
-<h3>改变UITextfiedl的placeholder的颜色</h3>
+    <content type="html"><![CDATA[<h3>改变UITextfiedl的placeholder的颜色</h3>
 
 <pre><code>[searchField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
 </code></pre>
