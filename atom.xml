@@ -4,7 +4,7 @@
   <title><![CDATA[Limon's Blog]]></title>
   <link href="http://limon-.github.io//atom.xml" rel="self"/>
   <link href="http://limon-.github.io//"/>
-  <updated>2015-01-26T13:49:03+08:00</updated>
+  <updated>2015-01-26T13:50:23+08:00</updated>
   <id>http://limon-.github.io//</id>
   <author>
     <name><![CDATA[Limon]]></name>
@@ -1021,63 +1021,6 @@ objc_autoreleasePoolPop(context);
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Reading record]]></title>
-    <link href="http://limon-.github.io//blog/2015/01/18/reading-record/"/>
-    <updated>2015-01-18T10:16:07+08:00</updated>
-    <id>http://limon-.github.io//blog/2015/01/18/reading-record</id>
-    <content type="html"><![CDATA[<h2>Swift</h2>
-
-<h2>ReactiveCocoa</h2>
-
-<p><a href="http://iiiyu.com/2014/12/26/learning-ios-notes-thirty-six/">ReactiveCocoa 用 RACSignal 替代 Delegate</a></p>
-
-<h2>内存管理</h2>
-
-<p><a href="http://www.oschina.net/translate/automatic-reference-counting-on-ios">iOS开发之ARC</a></p>
-
-<p><a href="http://onevcat.com/2012/06/arc-hand-by-hand/">手把手教你ARC——iOS/Mac开发ARC入门和使用</a></p>
-
-<p><a href="http://blog.csdn.net/nicktang/article/details/6792972">IOS 5编程 内存管理 ARC技术概述</a></p>
-
-<p><a href="http://www.yifeiyang.net/development-of-the-iphone-simply-1/">iPhone开发之深入浅出 (1) — ARC是什么</a></p>
-
-<h2>线程</h2>
-
-<p><a href="http://blog.cnbluebox.com/blog/2014/07/01/cocoashen-ru-xue-xi-nsoperationqueuehe-nsoperationyuan-li-he-shi-yong/">Cocoa深入学习:NSOperationQueue、NSRunLoop和线程安全</a></p>
-
-<p><a href="http://www.cnblogs.com/kenshincui/p/3983982.html">iOS开发系列&ndash;并行开发其实很容易</a></p>
-
-<h2>动画</h2>
-
-<p><a href="http://yingkong1987.github.io/blog/2014/05/05/playing-with-pop.html">玩转Facebook开源的Pop库</a></p>
-
-<p><a href="http://www.cnblogs.com/kenshincui/p/3972100.html#autoid-3-3-0">iOS开发系列&ndash;让你的应用“动”起来</a></p>
-
-<h2>CocoaPods</h2>
-
-<p><a href="http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/">用CocoaPods做iOS程序的依赖管理</a></p>
-
-<p><a href="http://gracelancy.com/blog/2013/08/11/make-your-own-cocoapods-spec/">制作自己的CocoaPods Spec</a></p>
-
-<p><a href="http://www.iwangke.me/2013/04/18/advanced-cocoapods/">CocoaPods进阶：本地包管理</a></p>
-
-<h2>杂</h2>
-
-<p><a href="http://blog.sunnyxx.com/2014/12/20/64-bit-tips/">64-bit Tips</a></p>
-
-<p><a href="http://blog.sunnyxx.com/2014/10/15/behind-autorelease/">黑幕背后的Autorelease</a></p>
-
-<p><a href="http://mobile.51cto.com/iphone-284112.htm">Objective-C内存管理如何理解Autorelease</a></p>
-
-<p><a href="http://cocoa.venj.me/blog/view-controller-based-status-bar-style-and-uinavigationcontroller/#comment-1501032470">UINavigationController和View Controller-based状态栏风格</a> &mdash;&mdash; 指定状态栏风格</p>
-
-<p><a href="http://gracelancy.com/blog/2014/05/05/variable-argument-lists/">Variable Argument Lists</a> &mdash;&mdash; 可变参数函数的定义</p>
-
-<p><a href="http://www.imooc.com/wenda/detail/244497">100个iOS开发/设计面试题汇总</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[内存管理 - 引用计数]]></title>
     <link href="http://limon-.github.io//blog/2015/01/13/nei-cun-guan-li-yin-yong-ji-shu-qi/"/>
     <updated>2015-01-13T14:27:14+08:00</updated>
@@ -1348,6 +1291,63 @@ NSString *orderString = [NSString stringWithFormat:@"%@&amp;sign=\"%@\"&amp;sign
 <p>需要在<code>RSADataSigner.m</code>中抽离<code>-urlEncodedString</code>方法出来。。。坑啊，明明都不需要手机端签名了，当然不会去看手机端签名的具体流程啦。又没看到哪里说明服务器端返回的<code>sign</code>需要<code>urlEncoded</code>，连客服都不知道需要<code>urlEncoded</code>&hellip;..</p>
 
 <h3>心塞，不说了&hellip;&hellip;.</h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Reading record]]></title>
+    <link href="http://limon-.github.io//blog/2015/01/02/reading-record/"/>
+    <updated>2015-01-02T10:16:07+08:00</updated>
+    <id>http://limon-.github.io//blog/2015/01/02/reading-record</id>
+    <content type="html"><![CDATA[<h2>Swift</h2>
+
+<h2>ReactiveCocoa</h2>
+
+<p><a href="http://iiiyu.com/2014/12/26/learning-ios-notes-thirty-six/">ReactiveCocoa 用 RACSignal 替代 Delegate</a></p>
+
+<h2>内存管理</h2>
+
+<p><a href="http://www.oschina.net/translate/automatic-reference-counting-on-ios">iOS开发之ARC</a></p>
+
+<p><a href="http://onevcat.com/2012/06/arc-hand-by-hand/">手把手教你ARC——iOS/Mac开发ARC入门和使用</a></p>
+
+<p><a href="http://blog.csdn.net/nicktang/article/details/6792972">IOS 5编程 内存管理 ARC技术概述</a></p>
+
+<p><a href="http://www.yifeiyang.net/development-of-the-iphone-simply-1/">iPhone开发之深入浅出 (1) — ARC是什么</a></p>
+
+<h2>线程</h2>
+
+<p><a href="http://blog.cnbluebox.com/blog/2014/07/01/cocoashen-ru-xue-xi-nsoperationqueuehe-nsoperationyuan-li-he-shi-yong/">Cocoa深入学习:NSOperationQueue、NSRunLoop和线程安全</a></p>
+
+<p><a href="http://www.cnblogs.com/kenshincui/p/3983982.html">iOS开发系列&ndash;并行开发其实很容易</a></p>
+
+<h2>动画</h2>
+
+<p><a href="http://yingkong1987.github.io/blog/2014/05/05/playing-with-pop.html">玩转Facebook开源的Pop库</a></p>
+
+<p><a href="http://www.cnblogs.com/kenshincui/p/3972100.html#autoid-3-3-0">iOS开发系列&ndash;让你的应用“动”起来</a></p>
+
+<h2>CocoaPods</h2>
+
+<p><a href="http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/">用CocoaPods做iOS程序的依赖管理</a></p>
+
+<p><a href="http://gracelancy.com/blog/2013/08/11/make-your-own-cocoapods-spec/">制作自己的CocoaPods Spec</a></p>
+
+<p><a href="http://www.iwangke.me/2013/04/18/advanced-cocoapods/">CocoaPods进阶：本地包管理</a></p>
+
+<h2>杂</h2>
+
+<p><a href="http://blog.sunnyxx.com/2014/12/20/64-bit-tips/">64-bit Tips</a></p>
+
+<p><a href="http://blog.sunnyxx.com/2014/10/15/behind-autorelease/">黑幕背后的Autorelease</a></p>
+
+<p><a href="http://mobile.51cto.com/iphone-284112.htm">Objective-C内存管理如何理解Autorelease</a></p>
+
+<p><a href="http://cocoa.venj.me/blog/view-controller-based-status-bar-style-and-uinavigationcontroller/#comment-1501032470">UINavigationController和View Controller-based状态栏风格</a> &mdash;&mdash; 指定状态栏风格</p>
+
+<p><a href="http://gracelancy.com/blog/2014/05/05/variable-argument-lists/">Variable Argument Lists</a> &mdash;&mdash; 可变参数函数的定义</p>
+
+<p><a href="http://www.imooc.com/wenda/detail/244497">100个iOS开发/设计面试题汇总</a></p>
 ]]></content>
   </entry>
   
