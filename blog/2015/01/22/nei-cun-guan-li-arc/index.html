@@ -284,10 +284,12 @@
 <p>回归本题，在ARC下，我们通常用<strong>内存管理语义</strong>来管理内存，下面这一组语义仅会影响setter。例如，用setter设定一个新值时，它是应该“保留”(retain)此值呢，还是只将其赋给底层实例变量就好？这些取决于你是用strong，还是copy，还是assign等</p>
 
 <ul>
-<li><p><code>assign</code>  对“纯量类型”(scalar type)的简单赋值
-  -(void)setState:(int)State{<br/>
-      _state = state;<br/>
-  }</p></li>
+<li><p><code>assign</code>  对“纯量类型”(scalar type)的简单赋值</p>
+
+<pre><code>  -(void)setState:(int)State{  
+      _state = state;  
+  }
+</code></pre></li>
 <li><p><code>unsafe_unretained</code>  此语义与<code>assign</code>相同，但是它适用于&#8221;对象类型&#8221;，该语义表达一种&#8221;非拥有关系&#8221;(unretained),当对象被销毁时，属性值不会自动清空(&ldquo;不安全&rdquo;,unsafe)，这一点与<code>weak</code>有区别</p></li>
 <li><p><code>weak</code>  该语义表达一种&#8221;非拥有关系&#8221;，为这种属性设置新值时，设置方法既不保留新值，也不释放旧值，即仅作简单赋值，类似<code>assign</code>，当对象销毁，属性值被赋值为<code>nil</code></p></li>
 <li><p><code>strong</code>  该语义表达一种&#8221;拥有关系&#8221;，为这种属性值设置新值时，设置方法会先保留新值，再释放旧值，最后把新值设置上去</p>
@@ -361,6 +363,29 @@
 <h4>block</h4>
 
 <p>这个网上大把，可以看看<a href="http://www.cnbluebox.com/?p=255">block使用小结、在arc中使用block、如何防止循环引用</a></p>
+
+<h3>ARC下内存管理 &mdash; self</h3>
+
+<p>ARC下，方法内的self既不是strong也不是weak，而是unsafe_unretained的（init系列方法的self除外）。
+换而言之，在普通方法中，ARC不会对<code>self</code>做<code>retain</code>和<code>release</code>操作，生命周期全由调用方来决定，如果调用方没有保证<code>self</code>在被调用方法中的生命周期，可能在此方法中运行到一半，<code>self</code>就被释放了，可能程序就崩溃了。</p>
+
+<h2>总结</h2>
+
+<ul>
+<li>ARC管理对象生命期的基本办法：在编译期间，在合适的地方插入<code>retain</code>和<code>release</code>操作</li>
+<li>在ARC下，我们通常通过<code>内存管理语义</code>来管理内存，常见的有：<code>strong</code>、<code>weak</code>、<code>copy</code></li>
+</ul>
+
+
+<h2>番外</h2>
+
+<p>研读了@sunny大大的<a href="http://blog.sunnyxx.com/2015/01/17/self-in-arc/">《ARC对self的内存管理》</a>之后作一些笔记，</p>
+
+<h2>参考资料</h2>
+
+<p><a href="http://clang.llvm.org/docs/AutomaticReferenceCounting.html">Objective-C Automatic Reference Counting (ARC)</a> &mdash;&ndash; 关于ARC的详细文档</p>
+
+<p><a href="http://blog.sunnyxx.com/2015/01/17/self-in-arc/">ARC对self的内存管理</a> &mdash;&ndash; 专门对ARC下self的剖析</p>
 
 	</div>
 

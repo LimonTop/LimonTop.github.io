@@ -4,7 +4,7 @@
   <title><![CDATA[Category: reading | Limon's Blog]]></title>
   <link href="http://limon-.github.io//blog/categories/reading/atom.xml" rel="self"/>
   <link href="http://limon-.github.io//"/>
-  <updated>2015-01-23T17:15:49+08:00</updated>
+  <updated>2015-01-26T13:36:58+08:00</updated>
   <id>http://limon-.github.io//</id>
   <author>
     <name><![CDATA[Limon]]></name>
@@ -18,7 +18,9 @@
     <link href="http://limon-.github.io//blog/2015/01/19/reading-record/"/>
     <updated>2015-01-19T10:16:07+08:00</updated>
     <id>http://limon-.github.io//blog/2015/01/19/reading-record</id>
-    <content type="html"><![CDATA[<h2>ReactiveCocoa</h2>
+    <content type="html"><![CDATA[<h2>Swift</h2>
+
+<h2>ReactiveCocoa</h2>
 
 <p><a href="http://iiiyu.com/2014/12/26/learning-ios-notes-thirty-six/">ReactiveCocoa 用 RACSignal 替代 Delegate</a></p>
 
@@ -31,6 +33,12 @@
 <p><a href="http://blog.csdn.net/nicktang/article/details/6792972">IOS 5编程 内存管理 ARC技术概述</a></p>
 
 <p><a href="http://www.yifeiyang.net/development-of-the-iphone-simply-1/">iPhone开发之深入浅出 (1) — ARC是什么</a></p>
+
+<h2>线程</h2>
+
+<p><a href="http://blog.cnbluebox.com/blog/2014/07/01/cocoashen-ru-xue-xi-nsoperationqueuehe-nsoperationyuan-li-he-shi-yong/">Cocoa深入学习:NSOperationQueue、NSRunLoop和线程安全</a></p>
+
+<p><a href="http://www.cnblogs.com/kenshincui/p/3983982.html">iOS开发系列&ndash;并行开发其实很容易</a></p>
 
 <h2>动画</h2>
 

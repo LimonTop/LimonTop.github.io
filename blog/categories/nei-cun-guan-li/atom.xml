@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 内存管理 | Limon's Blog]]></title>
   <link href="http://limon-.github.io//blog/categories/nei-cun-guan-li/atom.xml" rel="self"/>
   <link href="http://limon-.github.io//"/>
-  <updated>2015-01-23T17:15:49+08:00</updated>
+  <updated>2015-01-26T13:36:58+08:00</updated>
   <id>http://limon-.github.io//</id>
   <author>
     <name><![CDATA[Limon]]></name>
@@ -165,10 +165,12 @@
 <p>回归本题，在ARC下，我们通常用<strong>内存管理语义</strong>来管理内存，下面这一组语义仅会影响setter。例如，用setter设定一个新值时，它是应该“保留”(retain)此值呢，还是只将其赋给底层实例变量就好？这些取决于你是用strong，还是copy，还是assign等</p>
 
 <ul>
-<li><p><code>assign</code>  对“纯量类型”(scalar type)的简单赋值
-  -(void)setState:(int)State{<br/>
-      _state = state;<br/>
-  }</p></li>
+<li><p><code>assign</code>  对“纯量类型”(scalar type)的简单赋值</p>
+
+<pre><code>  -(void)setState:(int)State{  
+      _state = state;  
+  }
+</code></pre></li>
 <li><p><code>unsafe_unretained</code>  此语义与<code>assign</code>相同，但是它适用于&#8221;对象类型&#8221;，该语义表达一种&#8221;非拥有关系&#8221;(unretained),当对象被销毁时，属性值不会自动清空(&ldquo;不安全&rdquo;,unsafe)，这一点与<code>weak</code>有区别</p></li>
 <li><p><code>weak</code>  该语义表达一种&#8221;非拥有关系&#8221;，为这种属性设置新值时，设置方法既不保留新值，也不释放旧值，即仅作简单赋值，类似<code>assign</code>，当对象销毁，属性值被赋值为<code>nil</code></p></li>
 <li><p><code>strong</code>  该语义表达一种&#8221;拥有关系&#8221;，为这种属性值设置新值时，设置方法会先保留新值，再释放旧值，最后把新值设置上去</p>
@@ -242,6 +244,29 @@
 <h4>block</h4>
 
 <p>这个网上大把，可以看看<a href="http://www.cnbluebox.com/?p=255">block使用小结、在arc中使用block、如何防止循环引用</a></p>
+
+<h3>ARC下内存管理 &mdash; self</h3>
+
+<p>ARC下，方法内的self既不是strong也不是weak，而是unsafe_unretained的（init系列方法的self除外）。
+换而言之，在普通方法中，ARC不会对<code>self</code>做<code>retain</code>和<code>release</code>操作，生命周期全由调用方来决定，如果调用方没有保证<code>self</code>在被调用方法中的生命周期，可能在此方法中运行到一半，<code>self</code>就被释放了，可能程序就崩溃了。</p>
+
+<h2>总结</h2>
+
+<ul>
+<li>ARC管理对象生命期的基本办法：在编译期间，在合适的地方插入<code>retain</code>和<code>release</code>操作</li>
+<li>在ARC下，我们通常通过<code>内存管理语义</code>来管理内存，常见的有：<code>strong</code>、<code>weak</code>、<code>copy</code></li>
+</ul>
+
+
+<h2>番外</h2>
+
+<p>研读了@sunny大大的<a href="http://blog.sunnyxx.com/2015/01/17/self-in-arc/">《ARC对self的内存管理》</a>之后作一些笔记，</p>
+
+<h2>参考资料</h2>
+
+<p><a href="http://clang.llvm.org/docs/AutomaticReferenceCounting.html">Objective-C Automatic Reference Counting (ARC)</a> &mdash;&ndash; 关于ARC的详细文档</p>
+
+<p><a href="http://blog.sunnyxx.com/2015/01/17/self-in-arc/">ARC对self的内存管理</a> &mdash;&ndash; 专门对ARC下self的剖析</p>
 ]]></content>
   </entry>
   
@@ -312,7 +337,7 @@ NSObject协议声明了三个方法用于操作计数器</p>
 
 <h2>引用计数的应用场景</h2>
 
-<p>在上面的代码演示中，还不看出引用计数的真正用处。在函数内使用一个临时的对象，通常不需要修改引用计数，只需在甘薯返回前将该对象销毁即可。
+<p>在上面的代码演示中，还不看出引用计数的真正用处。在函数内使用一个临时的对象，通常不需要修改引用计数，只需在返回前将该对象销毁即可。
 引用计数真正的应用场景是，用于对象之间传递和共享数据。</p>
 
 <h2>引用计数的注意要点</h2>
@@ -327,8 +352,9 @@ NSLog(@"%lu",(unsigned long)[object retainCount]);
 NSLog(@"%lu",(unsigned long)[object retainCount]);
 </code></pre>
 
-<p>但是，打印的结果是 1  1
-最后一次输出，引用计数并没有变成0，原因是在最后一次 release 时，系统马上就回收了内存，就没有再将retainCount减1，因为不将值从1变成0，可以减少一次内存操作，加快对象的回收，只有在系统不打算这么优化时，计数值才会递减为0</p>
+<p>但是，打印的结果是 1  1</p>
+
+<p>最后一次输出，引用计数并没有变成0，原因是在最后一次 release 时，系统马上就回收了内存，就没有再将retainCount减1，因为不将值从1变成0，可以减少一次内存操作，加快对象的回收，只有在系统不打算这么优化时，计数值才会递减为0</p>
 
 <h3>悬挂指针</h3>
 
@@ -358,6 +384,14 @@ number = nil;
 </code></pre>
 
 <blockquote><p>在Objective-C中，向nil发送消息不会出错。</p></blockquote>
+
+<h2>总结</h2>
+
+<ul>
+<li>Objective-C通过<code>引用计数机制</code>来管理内存</li>
+<li>对象创建之后，其引用计数器至少为1，<code>retain</code>和<code>release</code>分别会递增及递减计数器</li>
+</ul>
+
 ]]></content>
   </entry>
   
