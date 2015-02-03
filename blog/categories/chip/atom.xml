@@ -4,7 +4,7 @@
   <title><![CDATA[Category: chip | Limon's Blog]]></title>
   <link href="http://limon-.github.io//blog/categories/chip/atom.xml" rel="self"/>
   <link href="http://limon-.github.io//"/>
-  <updated>2015-01-26T13:50:23+08:00</updated>
+  <updated>2015-02-03T09:30:05+08:00</updated>
   <id>http://limon-.github.io//</id>
   <author>
     <name><![CDATA[Limon]]></name>
@@ -18,7 +18,28 @@
     <link href="http://limon-.github.io//blog/2014/07/28/codechip/"/>
     <updated>2014-07-28T00:10:03+08:00</updated>
     <id>http://limon-.github.io//blog/2014/07/28/codechip</id>
-    <content type="html"><![CDATA[<h3>改变UITextfiedl的placeholder的颜色</h3>
+    <content type="html"><![CDATA[<h2>Swift</h2>
+
+<h3>以⚠️(警告)的形式显示TODO、FIXME</h3>
+
+<ul>
+<li>选择target &ndash;> Build Phases &ndash;> 左上角的 &ldquo;+&rdquo; &ndash;> 添加一个Run Script &ndash;> 填写一下代码</li>
+</ul>
+
+
+<pre><code>TAGS="TODO:|FIXME:"
+echo "searching ${SRCROOT} for ${TAGS}"
+find "${SRCROOT}" \( -name "*.swift" \) -print0 | xargs -0 egrep --with-filename --line-number --only-matching "($TAGS).*\$" | perl -p -e "s/($TAGS)/ warning: \$1/"
+</code></pre>
+
+<h3>根据字体计算宽度</h3>
+
+<pre><code>let textSize: CGSize = ctr.title!.sizeWithAttributes([NSFontAttributeName: UIFont.boldSystemFontOfSize(kFontSizeOfTabButton)])
+</code></pre>
+
+<h2>Objective-C</h2>
+
+<h3>改变UITextfiedl的placeholder的颜色</h3>
 
 <pre><code>[searchField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
 </code></pre>
@@ -166,6 +187,12 @@ NSArray *b = [a componentsSeparatedByString:@"，"];
 <p>json编码</p>
 
 <pre><code>NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+</code></pre>
+
+<p>scrollView高度：取消默认添加的64px</p>
+
+<pre><code>// FIXED CGFloat tableViewY = 0 - StatusHeight - NavigationBarHeight;
+self.automaticallyAdjustsScrollViewInsets = NO;
 </code></pre>
 ]]></content>
   </entry>

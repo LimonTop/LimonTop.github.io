@@ -7,7 +7,7 @@
 	<meta name="author" content="Limon">
 
 	
-	<meta name="description" content="chip Jul 28th, 2014 12:10 am 改变UITextfiedl的placeholder的颜色 [searchField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"]; &hellip;">
+	<meta name="description" content="chip Jul 28th, 2014 12:10 am Swift 以⚠️(警告)的形式显示TODO、FIXME 选择target &ndash;> Build Phases &ndash;> 左上角的 &ldquo;+&rdquo; &ndash;> 添加一个Run Script & &hellip;&#8221;>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -52,7 +52,31 @@
 
 		</div>
 		
-		<h3>改变UITextfiedl的placeholder的颜色</h3>
+		<h2>Swift</h2>
+
+<h3>以⚠️(警告)的形式显示TODO、FIXME</h3>
+
+<ul>
+<li>选择target &ndash;> Build Phases &ndash;> 左上角的 &ldquo;+&rdquo; &ndash;> 添加一个Run Script &ndash;> 填写一下代码</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>TAGS="TODO:|FIXME:"
+</span><span class='line'>echo "searching ${SRCROOT} for ${TAGS}"
+</span><span class='line'>find "${SRCROOT}" \( -name "*.swift" \) -print0 | xargs -0 egrep --with-filename --line-number --only-matching "($TAGS).*\$" | perl -p -e "s/($TAGS)/ warning: \$1/"</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>根据字体计算宽度</h3>
+
+<pre><code>let textSize: CGSize = ctr.title!.sizeWithAttributes([NSFontAttributeName: UIFont.boldSystemFontOfSize(kFontSizeOfTabButton)])
+</code></pre>
+
+<h2>Objective-C</h2>
+
+<h3>改变UITextfiedl的placeholder的颜色</h3>
 
 <pre><code>[searchField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
 </code></pre>
@@ -200,6 +224,12 @@ NSArray *b = [a componentsSeparatedByString:@"，"];
 <p>json编码</p>
 
 <pre><code>NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+</code></pre>
+
+<p>scrollView高度：取消默认添加的64px</p>
+
+<pre><code>// FIXED CGFloat tableViewY = 0 - StatusHeight - NavigationBarHeight;
+self.automaticallyAdjustsScrollViewInsets = NO;
 </code></pre>
 
 	</div>

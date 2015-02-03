@@ -4,7 +4,7 @@
   <title><![CDATA[Category: record | Limon's Blog]]></title>
   <link href="http://limon-.github.io//blog/categories/record/atom.xml" rel="self"/>
   <link href="http://limon-.github.io//"/>
-  <updated>2015-01-26T13:50:23+08:00</updated>
+  <updated>2015-02-03T09:30:05+08:00</updated>
   <id>http://limon-.github.io//</id>
   <author>
     <name><![CDATA[Limon]]></name>
@@ -19,6 +19,12 @@
     <updated>2015-01-02T10:16:07+08:00</updated>
     <id>http://limon-.github.io//blog/2015/01/02/reading-record</id>
     <content type="html"><![CDATA[<h2>Swift</h2>
+
+<p><a href="http://www.devtalking.com/articles/ios-design-pattern-in-swift-1/">Swift中的iOS设计模式（一）</a></p>
+
+<p><a href="http://swiftist.org/topics/165">Swift 编程风格指南</a></p>
+
+<p><a href="http://stackoverflow.com/questions/24183812/swift-warning-equivalent">Showing TODO as a warning in a Swift Xcode project</a> &mdash; 以⚠️的形式显示TODO、FIXME</p>
 
 <h2>ReactiveCocoa</h2>
 

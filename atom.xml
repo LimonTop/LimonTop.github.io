@@ -4,7 +4,7 @@
   <title><![CDATA[Limon's Blog]]></title>
   <link href="http://limon-.github.io//atom.xml" rel="self"/>
   <link href="http://limon-.github.io//"/>
-  <updated>2015-01-26T13:50:23+08:00</updated>
+  <updated>2015-02-03T09:30:05+08:00</updated>
   <id>http://limon-.github.io//</id>
   <author>
     <name><![CDATA[Limon]]></name>
@@ -71,6 +71,53 @@ nickName!  // output："Limon"  ----- 解包
 let nickName:String! = "Limon" 
 nickName   // output："Limon"
 </code></pre>
+
+<h3>Implicitly Unwrapped Optionals 隐式拆包的Optional</h3>
+
+<p>在Swift中，必须彻底初始化，如果定义了一个变量，但不想在init()中进行初始化，怎么办？</p>
+
+<p>Optional类型就派上用场了，</p>
+
+<pre><code>var inOptionalVariable:Int?  // 默认为nil
+</code></pre>
+
+<p>但用<code>?</code>定义的Optional类型在用的时候有可能觉得不方便(详情见下面)，这时我们可用用<code>Implicitly Unwrapped Optionals</code>隐式拆包的Optional</p>
+
+<pre><code>var str:String!
+str.hashValue // 不用加?，但若str为空，则crash：found nil while unwrapping an Optional value
+</code></pre>
+
+<blockquote><p>隐式拆包的Optional，等于每次对这种类型的值操作时，都会自动在操作前补上一个!进行强制拆包，然后在执行后面的操作，当然如果该值是nil，会crash</p></blockquote>
+
+<p>而利用<code>?</code>定义有三种访问方式：</p>
+
+<ul>
+<li>强制拆包</li>
+<li>可选绑定</li>
+<li><p>?访问,若str为空则不执行后续操作，若有值，则执行后续操作</p>
+
+<pre><code>  var str:String?  // 注意这是一个Optional类型，而不是一个String类型        
+  str.hashValue // error: 'String?' does not have a member named 'hashValue'
+
+  // 1. 强制拆包
+  str!.hashValue  // 如果str不为空则可用，若为空则crash：found nil while unwrapping an Optional value
+  // 2. ?访问
+  str?.hashValue
+  // 3. 可选绑定
+  if let str1 = str{
+      str1.hashValue // str1一定不为空
+  } 
+</code></pre></li>
+</ul>
+
+
+<h4>！的两种应用场景</h4>
+
+<ul>
+<li>强制对Optional值进行拆包(unwrap)</li>
+<li>声明Implicitly Unwrapped Optionals值</li>
+</ul>
+
 
 <h2>nil聚合运算符</h2>
 
@@ -540,6 +587,182 @@ switch productB {
 // 输出 "QR code with value of ABCDEFGHIJKLMNOP.”
 </code></pre>
 
+<h2>Swift基础 &ndash; 类</h2>
+
+<p>在Swift中，不继承于其它类的类，称之为基类。</p>
+
+<pre><code>// 基类
+class Vehicle {
+
+}
+
+// 普通类
+class Vehicle: NSObject {
+
+}
+</code></pre>
+
+<p>类里面可以有：</p>
+
+<pre><code>class Vehicle {
+    // propercties 属性
+    // methods 方法
+    // initializers 初始化器
+    // 下标值
+    // 调用和访问超类的方法
+}
+</code></pre>
+
+<h3>储值属性 Stored Properties</h3>
+
+<p>简单来说，一个存储属性就是存储在特定类或结构体的实例里的一个常量或变量</p>
+
+<pre><code>class Vehicle {
+    var numberOfWheels = 0 // 无需写setter和getter
+}
+</code></pre>
+
+<h3>计算属性/算值属性 Computed Properties</h3>
+
+<p>此属性的值并不需要真正地储存起来，此属性可以通过一定地算法得出，如下，计算属性<code>center</code>可以通过储值属性<code>origin</code>来计算得出</p>
+
+<pre><code>struct Point {
+    var x = 0.0, y = 0.0
+}
+struct Rect {
+    var origin = Point()
+    var center: Point {  // 必须用var
+    get {
+        let centerX = origin.x + (size.width / 2)
+        let centerY = origin.y + (size.height / 2)
+        return Point(x: centerX, y: centerY)
+    }
+
+}
+</code></pre>
+
+<blockquote><p>计算属性不直接存储值，而是提供一个 getter 来获取值，一个可
+选的 setter 来间接设置其他属性或变量的值，若无setter则为只读计算属性。必须使用 var 关键字定义计算属性，包括只读计算属性，因为它们的值不是固定的****</p></blockquote>
+
+<h3>属性的默认值</h3>
+
+<pre><code>class Vehicle {
+    var numberOfWheels = 0
+    var number?
+    var title:String! // 隐式拆包的Optional 
+
+    var num  // error
+}
+</code></pre>
+
+<p>只能有这两种写法，一种是<code>Optional 可选型</code>、还有就是赋予默认值。如果不给默认值，默认是<code>nil</code>，但在Swift中，只有<code>Optional 可选型</code> 才能被赋予为<code>nil</code></p>
+
+<h3>初始化方法</h3>
+
+<p>必须记住两个个原则：</p>
+
+<ul>
+<li><strong>每个值在使用之前都必须进行初始化</strong></li>
+<li><code>初始化方法</code>应该将一个实例彻底初始化</li>
+</ul>
+
+
+<p>子类初始化</p>
+
+<pre><code>class Bicycle: Vehicle{
+    init(){
+        super.init() // 不一定要调用
+        numberOfWheels = 2
+    }
+}
+</code></pre>
+
+<p>OC中的init充当着两个角色：</p>
+
+<ul>
+<li>初始化操作</li>
+<li>调用<code>[super init]</code>，获得self</li>
+</ul>
+
+
+<p>在Swift中的<code>init</code>只负责初始化</p>
+
+<h3>计算属性覆盖 Overriding a Property</h3>
+
+<pre><code>class Car: Vehicle{
+    var speed = 0.0
+    init(){
+        numberOfWheels = 4
+    }
+
+    override var description:String{
+        return super.description + ", 每小时\(speed)公里"
+    }
+}
+</code></pre>
+
+<p><code>override</code>作用：</p>
+
+<ul>
+<li>告诉自己是在覆写父类的属性</li>
+<li>override 关键字会提醒 Swift 编译器去检查该类的超类（或其中一个父类）是否有匹配重写版本的声明。
+
+<blockquote><p>任何缺少 override 关键字的重写都会
+在编译时被诊断为错误。</p></blockquote></li>
+</ul>
+
+
+<h3>属性观察 Property Observers</h3>
+
+<p>属性观察器监控和响应属性值的变化，每次属性被设置值的时候都会调用属性观察器，甚至新的值和现在的值相同的时候也不例外。</p>
+
+<blockquote><p>不需要为无法重载的<strong>计算属性</strong>添加属性观察器，因为可以通过 setter 直接监控和响应值的变化</p></blockquote>
+
+<p>可以为属性添加如下的一个或全部观察器：</p>
+
+<ul>
+<li><code>willSet</code>在设置新的值之前调用</li>
+<li><code>didSet</code>在新的值被设置之后立即调用</li>
+</ul>
+
+
+<blockquote><p>willSet和didSet观察器在属性初始化过程中不会被调用，它们只会当属性的值在初始化之外的地方被设置时被调用</p></blockquote>
+
+<p>在子类中</p>
+
+<pre><code>class ParentsCar: Car{
+    override var speed: Double{
+        willSet{
+        }
+        didSet{
+
+        }
+
+    }
+
+}
+</code></pre>
+
+<p>在本类中：</p>
+
+<pre><code>class StepCounter {
+    var totalSteps: Int = 0 {
+    willSet(newTotalSteps) {
+        println("About to set totalSteps to \(newTotalSteps)")
+    }
+    didSet {
+        if totalSteps &gt; oldValue  {
+            println("Added \(totalSteps - oldValue) steps")
+        }
+    }
+    }
+}
+let stepCounter = StepCounter()
+stepCounter.totalSteps = 200
+// About to set totalSteps to 200
+// Added 200 steps
+</code></pre>
+
 <h2>官方文档</h2>
 
 <p><a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/index.html#//apple_ref/doc/uid/TP40014097-CH3-ID0">The Swift Programming Language</a>  &mdash;&ndash; Swift官方文档</p>
@@ -548,13 +771,296 @@ switch productB {
 
 <h2>Cheat Sheet</h2>
 
-<p><a href="http://cdn2.raywenderlich.com/wp-content/uploads/2014/06/RW-Swift-Cheatsheet-0_3.pdf">Swift Cheat Sheet and Quick Reference</a></p>
+<p><a href="http://cdn1.raywenderlich.com/wp-content/uploads/2014/06/RW-Swift-Cheatsheet-0_5.pdf">Swift Cheat Sheet and Quick Reference</a></p>
 
 <p><a href="http://mhm5000.gitbooks.io/swift-cheat-sheet/content/index.html">Swift Cheat Sheet</a></p>
 
 <p><a href="https://github.com/iwasrobbed/Swift-CheatSheet#swift-cheat-sheet">Swift-CheatSheet</a></p>
 
 <p><a href="http://kpbp.github.io/swiftcheatsheet/#variables">Swift Cheat Sheet</a></p>
+
+<h2>74个Swift内置函数</h2>
+
+<h3>断言 assert</h3>
+
+<p>断言，参数如果为<code>true</code>则继续，否则抛出异常</p>
+
+<pre><code>let age = -3
+assert(age &gt;= 0, "A person's age cannot be less than zero")
+// 因为 age &lt; 0，所以断言会触发
+</code></pre>
+
+<h5>断言数组越界</h5>
+
+<pre><code>struct Matrix {
+    let rows: Int, columns: Int
+    var grid: [Double]
+    init(rows: Int, columns: Int) {
+        self.rows = rows
+        self.columns = columns
+        grid = Array(count: rows * columns, repeatedValue: 0.0)
+    }
+    func indexIsValidForRow(row: Int, column: Int) -&gt; Bool {
+        return row &gt;= 0 &amp;&amp; row &lt; rows &amp;&amp; column &gt;= 0 &amp;&amp; column &lt; columns
+    }
+    subscript(row: Int, column: Int) -&gt; Double {
+        get {
+            // 断言，防止数组越界
+            assert(indexIsValidForRow(row, column: column), "Index out of range")
+            return grid[(row * columns) + column]
+        }
+        set {
+            assert(indexIsValidForRow(row, column: column), "Index out of range")
+            grid[(row * columns) + column] = newValue
+        }
+    }
+}
+</code></pre>
+
+<h3>计算元素个数 countElements</h3>
+
+<pre><code>countElements("foo") == 3
+</code></pre>
+
+<h3>数组的遍历 同时获得index和value</h3>
+
+<pre><code>for (index, value) in enumerate(["A", "B"]) {
+    // "0:A", "1:B" will be printed
+    println("\(index):\(value)")
+}
+</code></pre>
+
+<h3>数值比较 min</h3>
+
+<pre><code>min(8, 2, 3) == 2
+max(8, 2) == 8
+</code></pre>
+
+<h3>寻找序列中的最大值</h3>
+
+<pre><code>maxElement(1...10) == 10
+var languages = ["Swift", "Objective-C"]
+maxElement(languages) == "Swift"
+
+minElement(1...10) == 1
+</code></pre>
+
+<h3>打印（带换行）println</h3>
+
+<pre><code>println("World")
+</code></pre>
+
+<h3>打印出某个对象object的所有信息</h3>
+
+<pre><code>var languages = ["Swift", "Objective-C"]
+dump(languages)
+// Prints:
+// ▿ 2 elements
+//   - [0]: Swift
+//   - [1]: Objective-C
+</code></pre>
+
+<h3>排序 sort</h3>
+
+<pre><code>// sort mentioned on page 14
+for i in sort(["B", "A"]) {
+    // "A", "B" will be printed
+    println(i)
+}
+</code></pre>
+
+<h3>返回数字的绝对值 abs</h3>
+
+<pre><code>abs(-1) == 1
+abs(-42) == 42
+abs(42) == 42
+</code></pre>
+
+<h3>判断是否包含指定元素 contains</h3>
+
+<pre><code>`-contains(sequence, element)`
+
+var languages = ["Swift", "Objective-C"]
+contains(languages, "Swift") == true
+contains(languages, "Java") == false
+contains([29, 85, 42, 96, 75], 42) == true
+</code></pre>
+
+<h3>去掉首元素 dropFirst</h3>
+
+<pre><code>var languages = ["Swift", "Objective-C"]
+var oldLanguages = dropFirst(languages)
+equal(oldLanguages, ["Objective-C"]) == true
+</code></pre>
+
+<h3>去掉最后一个元素 dropLast</h3>
+
+<pre><code>var languages = ["Swift", "Objective-C"]
+var newLanguages = dropLast(languages)
+equal(newLanguages, ["Swift"]) == true
+</code></pre>
+
+<h3>判断两个序列是否相等</h3>
+
+<pre><code>var languages = ["Swift", "Objective-C"]
+equal(languages, ["Swift", "Objective-C"]) == true
+</code></pre>
+
+<h3>部分相等</h3>
+
+<p><code>-startsWith(sequence1, sequence2)</code>：如果序列sequence1中开头的元素跟序列sequence2中的所有元素都相等，则返回true，否则返回false。</p>
+
+<pre><code>startsWith("foobar", "foo") == true
+startsWith(10..100, 10..15) == true
+var languages = ["Swift", "Objective-C"]
+startsWith(languages, ["Swift"]) == true
+</code></pre>
+
+<h3>过滤 filter</h3>
+
+<p><code>-filter(sequence, includeElementClosure)</code>对序列sequence中每个元素都执行includeElementClosure闭包，并将所有闭包结果为true的元素合成一个新序列sequence并返回。</p>
+
+<pre><code>for i in filter(1...100, { $0 % 10 == 0 }) {
+    // 10, 20, 30, ...
+    println(i)
+    assert(contains([10, 20, 30, 40, 50, 60, 70, 80, 90, 100], i))
+}
+</code></pre>
+
+<h3>map</h3>
+
+<p><code>-map(sequence, transformClosure)</code>：对序列sequence中每个元素都执行includeElementClosure闭包，并将所有闭包的结果合成一个新序列sequence并返回</p>
+
+<pre><code>equal(map(1...3, { $0 * 5 }), [5, 10, 15])
+for i in map(1...10, { $0 * 10 }) {
+    // 10, 20, 30, ...
+    println(i)
+    assert(contains([10, 20, 30, 40, 50, 60, 70, 80, 90, 100], i))
+}
+</code></pre>
+
+<blockquote><p>与filter不同，与ReactiveCocoa中的map类似</p></blockquote>
+
+<h3>reduce</h3>
+
+<p><code>-reduce(sequence, initial, combineClosure)</code>：给定一个序列sequence，以及一个初始值initial，然后将initial和序列里的第1个元素作为参数传入combineClosure中进行运算，得到的结果保存到initial；然后再将initial和第2个元素传入combineClosure中计算，结果保存到initial；重复计算直到所有sequence中的元素都计算完毕，并返回最终的initial值。</p>
+
+<pre><code>var languages = ["Swift", "Objective-C"]
+reduce(languages, "", { $0 + $1 }) == "SwiftObjective-C"
+reduce([10, 20, 5], 2, { $0 * $1 }) == 2000 
+</code></pre>
+
+<h3>寻找元素，获取index find</h3>
+
+<p><code>-find(sequence, element)：</code>若有则返回index，若无则返回nil</p>
+
+<pre><code>var languages = ["Swift", "Objective-C"]
+find(languages, "Objective-C") == 1
+find(languages, "Java") == nil
+find([29, 85, 42, 96, 75], 42) == 2 
+</code></pre>
+
+<blockquote><p>注意<code>-find</code>返回的是nil或index</p></blockquote>
+
+<h3>数组转字符串 join</h3>
+
+<pre><code>join(":", ["A", "B", "C"]) == "A:B:C"
+var languages = ["Swift", "Objective-C"]
+join("/", languages) == "Swift/Objective-C"
+</code></pre>
+
+<h3>逆序 reverse</h3>
+
+<pre><code>equal(reverse([1, 2, 3]), [3, 2, 1])
+for i in reverse([1, 2, 3]) {
+    // 3, 2, 1
+    println(i)
+}
+</code></pre>
+
+<h2>完整74个内置函数：</h2>
+
+<pre><code>abs(...)
+advance(...)
+alignof(...)
+alignofValue(...)
+assert(...)
+bridgeFromObjectiveC(...)
+bridgeFromObjectiveCUnconditional(...)
+bridgeToObjectiveC(...)
+bridgeToObjectiveCUnconditional(...)
+c_malloc_size(...)
+c_memcpy(...)
+c_putchar(...)
+contains(...)
+count(...)
+countElements(...)
+countLeadingZeros(...)
+debugPrint(...)
+debugPrintln(...)
+distance(...)
+dropFirst(...)
+dropLast(...)
+dump(...)
+encodeBitsAsWords(...)
+enumerate(...)
+equal(...)
+filter(...)
+find(...)
+getBridgedObjectiveCType(...)
+getVaList(...)
+indices(...)
+insertionSort(...)
+isBridgedToObjectiveC(...)
+isBridgedVerbatimToObjectiveC(...)
+isUniquelyReferenced(...)
+join(...)
+lexicographicalCompare(...)
+map(...)
+max(...)
+maxElement(...)
+min(...)
+minElement(...)
+numericCast(...)
+partition(...)
+posix_read(...)
+posix_write(...)
+print(...)
+println(...)
+quickSort(...)
+reduce(...)
+reflect(...)
+reinterpretCast(...)
+reverse(...)
+roundUpToAlignment(...)
+sizeof(...)
+sizeofValue(...)
+sort(...)
+split(...)
+startsWith(...)
+strideof(...)
+strideofValue(...)
+swap(...)
+swift_MagicMirrorData_summaryImpl(...)
+swift_bufferAllocate(...)
+swift_keepAlive(...)
+toString(...)
+transcode(...)
+underestimateCount(...)
+unsafeReflect(...)
+withExtendedLifetime(...)
+withObjectAtPlusZero(...)
+withUnsafePointer(...)
+withUnsafePointerToObject(...)
+withUnsafePointers(...)
+withVaList(...)
+</code></pre>
+
+<h2>优秀文章</h2>
+
+<p><a href="http://swiftist.org/topics/126">74个Swift标准库函数</a></p>
+
+<p><a href="http://practicalswift.com/2014/06/14/the-swift-standard-library-list-of-built-in-functions/">Swift Standard Library: Documented and undocumented built-in functions in the Swift standard library – the complete list with all 74 functions</a></p>
 ]]></content>
   </entry>
   
@@ -1301,6 +1807,12 @@ NSString *orderString = [NSString stringWithFormat:@"%@&amp;sign=\"%@\"&amp;sign
     <id>http://limon-.github.io//blog/2015/01/02/reading-record</id>
     <content type="html"><![CDATA[<h2>Swift</h2>
 
+<p><a href="http://www.devtalking.com/articles/ios-design-pattern-in-swift-1/">Swift中的iOS设计模式（一）</a></p>
+
+<p><a href="http://swiftist.org/topics/165">Swift 编程风格指南</a></p>
+
+<p><a href="http://stackoverflow.com/questions/24183812/swift-warning-equivalent">Showing TODO as a warning in a Swift Xcode project</a> &mdash; 以⚠️的形式显示TODO、FIXME</p>
+
 <h2>ReactiveCocoa</h2>
 
 <p><a href="http://iiiyu.com/2014/12/26/learning-ios-notes-thirty-six/">ReactiveCocoa 用 RACSignal 替代 Delegate</a></p>
@@ -1569,7 +2081,31 @@ RACSignal *switched = [signalOfSignals switchToLatest];
     <link href="http://limon-.github.io//blog/2014/07/28/codechip/"/>
     <updated>2014-07-28T00:10:03+08:00</updated>
     <id>http://limon-.github.io//blog/2014/07/28/codechip</id>
-    <content type="html"><![CDATA[<h3>改变UITextfiedl的placeholder的颜色</h3>
+    <content type="html"><![CDATA[<h2>Swift</h2>
+
+<h3>以⚠️(警告)的形式显示TODO、FIXME</h3>
+
+<ul>
+<li>选择target &ndash;> Build Phases &ndash;> 左上角的 &ldquo;+&rdquo; &ndash;> 添加一个Run Script &ndash;> 填写一下代码</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>TAGS="TODO:|FIXME:"
+</span><span class='line'>echo "searching ${SRCROOT} for ${TAGS}"
+</span><span class='line'>find "${SRCROOT}" \( -name "*.swift" \) -print0 | xargs -0 egrep --with-filename --line-number --only-matching "($TAGS).*\$" | perl -p -e "s/($TAGS)/ warning: \$1/"</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>根据字体计算宽度</h3>
+
+<pre><code>let textSize: CGSize = ctr.title!.sizeWithAttributes([NSFontAttributeName: UIFont.boldSystemFontOfSize(kFontSizeOfTabButton)])
+</code></pre>
+
+<h2>Objective-C</h2>
+
+<h3>改变UITextfiedl的placeholder的颜色</h3>
 
 <pre><code>[searchField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
 </code></pre>
@@ -1717,6 +2253,12 @@ NSArray *b = [a componentsSeparatedByString:@"，"];
 <p>json编码</p>
 
 <pre><code>NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+</code></pre>
+
+<p>scrollView高度：取消默认添加的64px</p>
+
+<pre><code>// FIXED CGFloat tableViewY = 0 - StatusHeight - NavigationBarHeight;
+self.automaticallyAdjustsScrollViewInsets = NO;
 </code></pre>
 ]]></content>
   </entry>
